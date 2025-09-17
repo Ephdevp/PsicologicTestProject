@@ -18,6 +18,11 @@ class EnsureUserHasPerson
         $user = $request->user();
 
         if ($user) {
+            // Exclude super admin (user_level_id == 1)
+            if ((int) $user->user_level_id === 1) {
+                return $next($request);
+            }
+
             // Avoid redirect loops: allow certain route names & paths
             $allowedRouteNames = [
                 'profile.edit',

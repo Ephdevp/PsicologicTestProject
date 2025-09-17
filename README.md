@@ -1,10 +1,34 @@
-## Psicologic Test Project v0.2.5
+## Changelog v0.3.0 (2025-09-17)
+This version introduces the first functional iteration of the personal data flow and prepares the application for psychological tests.
 
-### New & Updated Features
+### Key Changes
+1. Profile / Personal Data:
+   - Unified form (create / update) always visible.
+   - Validation and full English translation.
+   - Visual alerts if the user tries to navigate without completing their data.
+2. `EnsureUserHasPerson` middleware forces personal data registration before continuing.
+3. Authentication flow adjustments:
+   - Registration assigns `user_level_id = 3`.
+   - Post-login and post-registration redirect to profile.
+4. Person management (`person.store` and `person.update` endpoints).
+5. Initial UI components for Tests (available / completed tests widgets - demo data).
+6. Consistent UX and session keys (`person-updated`, `person_required`).
+7. Seeders added / improved:
+   - User levels (`super_admin`, `admin`, `user`).
+   - Default Super Admin user.
+   - Bulk loading of interpretation data and Sten Age tables.
+8. Eloquent relationships configured (User, Person, Question, Test, etc.).
+9. Bootstrap / routing adjustments to register global middleware.
+10. Cleanup and structural alignment to Laravel 12 style.
+
+---
+
+## (Referencia) Detalle de Funcionalidades v0.3.0
+
+### New & Updated Features (English Summary)
 1. Profile page enhancements:
    - Always-visible Personal Data form (create/update unified) with validation and English translation.
-   - Conditional tests widgets section (Available Tests & Completed Tests) shown when user has personal data.
-   - Auto-scroll to tests widgets on load when present.
+   - Conditional tests widgets section (Available Tests & Completed Tests) shown when user has personal data; auto-scrolls into view on load.
    - Red alert + warning icon when middleware redirects user without personal data (inputs highlighted).
 2. Middleware: `EnsureUserHasPerson` forces users to complete personal data before navigating the app.
 3. Authentication flow adjustments:
@@ -12,19 +36,20 @@
    - Post-login & post-registration redirect to profile instead of dashboard.
 4. Person management:
    - Backend create & update endpoints (`person.store`, `person.update`).
-   - Form supports gender options (male, female, other).
+   - Form supports gender options (male, female, other) and unified UX.
 5. UI components:
-   - Tests overview widgets (hardcoded demo data for now) with modern Tailwind styling.
+   - Tests overview widgets (hardcoded demo data) with modern Tailwind styling.
 6. Language & UX:
    - Personal Data form fully translated to English.
    - Consistent status flash keys (`person-updated`, `person_required`).
 7. Seeders added/improved:
    - User levels (`super_admin`, `admin`, `user`).
+   - Super admin user (`SuperAdminUserSeeder`) with default credentials.
    - Interpretation data bulk insert.
    - Sten age data bulk insert.
 8. Eloquent relationships defined across models (User, Person, Question, Test, etc.).
-9. Routing & bootstrap configuration updated to register custom middleware in web group.
-10. Codebase cleanup & structural alignment for Laravel 12 style (`bootstrap/app.php` middleware config).
+9. Routing & bootstrap configuration updated to register custom middleware in web group (`bootstrap/app.php`).
+10. Codebase cleanup & structural alignment for Laravel 12 style configuration.
 
 ---
 
@@ -71,10 +96,14 @@ Follow these steps to set up the application:
 
 5. **Run Migrations:**
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
-6. **Start the Development Server:**
+6. **Login with Super Admin (seeded):**
+   - Email: `superadmin@example.com`
+   - Password: `password` (change immediately in production).
+
+7. **Start the Development Server:**
    ```bash
    php artisan serve
    ```

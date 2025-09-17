@@ -2,19 +2,26 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\QuestionarieController;
+use App\Http\Controllers\TestController;
+use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->controller(QuestionarieController::class)->group(function () {
+    Route::get('/questionnaire/{testId}', 'index')->name('questionnaire.index');
+});
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.index');
 
-Route::get('/questionnaire', function () {
-    return view('questionnaire');
-})->name('questionnaire');
+Route::middleware(['auth', 'verified'])->controller(TestController::class)->group(function () {
+    Route::post('/questionnaire/submit', 'questionarieSubmit')->name('test.questionarieSubmit');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

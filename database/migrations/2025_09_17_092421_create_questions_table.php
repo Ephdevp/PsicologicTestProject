@@ -22,6 +22,7 @@ return new class extends Migration
                 ])->nullable();
             $table->enum('factor', ['A', 'B', 'C', 'E'])->nullable();
             $table->text('question_text')->nullable();
+            $table->timestamps();
         });
     }
 
