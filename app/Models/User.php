@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_level_id',
     ];
 
     /**
@@ -44,5 +45,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Define the relationship with the Test model through the pivot table
+    public function tests()
+    {
+        return $this->belongsToMany(Test::class, 'user_test', 'user_id', 'test_id')->withTimestamps();
+    }
+
+    public function people()
+    {
+        return $this->hasMany(Person::class, 'user_id');
+    }
+
+    public function userLevel()
+    {
+        return $this->belongsTo(UserLevel::class, 'user_level_id');
+    }
+
+    public function answers()
+    {
+        return $this->belongsToMany(Answer::class, 'answer_user', 'user_id', 'answer_id')->withTimestamps();
     }
 }
