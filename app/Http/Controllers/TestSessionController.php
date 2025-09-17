@@ -157,7 +157,7 @@ class TestSessionController extends Controller
 
             // Calculate raw score for this factor
             $rawScore = $session->userAnswerRecords()
-                ->whereIn('question_id', $factorQuestions)
+                ->whereIn('user_answer_records.question_id', $factorQuestions)
                 ->join('answers', 'user_answer_records.answer_id', '=', 'answers.id')
                 ->sum('answers.score_value');
 

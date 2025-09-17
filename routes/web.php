@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TestSessionController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Test session routes
     Route::get('/session/{sessionToken}', [TestSessionController::class, 'take'])->name('test-session.take');
     Route::post('/session/{sessionToken}/answer', [TestSessionController::class, 'saveAnswer'])->name('test-session.answer');
+});
+
+// Admin routes
+Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/results', [AdminController::class, 'results'])->name('results');
+    Route::get('/sessions/{session}', [AdminController::class, 'sessionDetails'])->name('session.details');
 });
 
 // Legacy route for existing view

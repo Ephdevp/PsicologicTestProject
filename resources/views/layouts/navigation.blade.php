@@ -15,6 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Test list') }}
                     </x-nav-link>
+                    @if(auth()->user()->isAdmin())
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                            {{ __('Admin Panel') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
