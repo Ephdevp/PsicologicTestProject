@@ -21,6 +21,6 @@ return new class extends Migration
     }
     public function down(): void
     {
-        Schema::dropIfExists('user_test_pivot');
+        Schema::dropIfExists('user_test');
     }
 };

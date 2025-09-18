@@ -54,7 +54,6 @@
                 <option value="" disabled {{ $g === '' ? 'selected' : '' }}>-- Select --</option>
                 <option value="male" {{ $g === 'male' ? 'selected' : '' }}>{{ __('Male') }}</option>
                 <option value="female" {{ $g === 'female' ? 'selected' : '' }}>{{ __('Female') }}</option>
-                <option value="other" {{ $g === 'other' ? 'selected' : '' }}>{{ __('Other') }}</option>
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('gender')" />
         </div>

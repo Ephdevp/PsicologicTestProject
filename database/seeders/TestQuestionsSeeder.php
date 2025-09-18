@@ -17,7 +17,6 @@ class TestQuestionsSeeder extends Seeder
         }
 
         $groups = ['communicative','emotional','intellectual','willpower'];
-        $factors = ['A','B','C','E'];
 
         foreach ($tests as $test) {
             // Skip if test already has >= 10 questions
@@ -30,7 +29,7 @@ class TestQuestionsSeeder extends Seeder
                 $questions[] = [
                     'test_id' => $test->id,
                     'group' => $groups[($i - 1) % count($groups)],
-                    'factor' => $factors[($i - 1) % count($factors)],
+                    'factor_id' => random_int(1, 16),
                     'question_text' => 'Sample question '.$i.' for test: '.$test->name,
                 ];
             }

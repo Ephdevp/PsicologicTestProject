@@ -6,17 +6,17 @@
     </x-slot>
 
     @if(request()->boolean('timeout'))
-        <div style="max-width: 80rem; margin: 1.5rem auto 0; padding-left: 1.5rem; padding-right: 2rem;">
-            <div id="timeout-alert" style="border-radius: 0.375rem; background-color: #FEF3C7; border: 1px solid #FDE68A; padding: 1rem; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); transition: opacity .6s ease;">
-                <div style="display: flex;">
-                    <div style="flex-shrink: 0; color: #F59E42;">
-                        <svg xmlns="http://www.w3.org/2000/svg" style="height: 1.25rem; width: 1.25rem;" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <div class="max-w-7xl mx-auto mt-6 px-6 lg:px-8">
+            <div id="timeout-alert" class="rounded-md bg-amber-100 border border-amber-300 p-4 shadow-sm transition-opacity duration-700">
+                <div class="flex">
+                    <div class="shrink-0 text-orange-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l6.518 11.598c.75 1.336-.213 3.003-1.742 3.003H3.48c-1.53 0-2.492-1.667-1.743-3.003L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-2a.75.75 0 01-.75-.75V8a.75.75 0 011.5 0v2.25A.75.75 0 0110 11z" clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <div style="margin-left: 0.75rem;">
-                        <h3 style="font-size: 0.875rem; font-weight: 600; color: #92400E;">Time is up</h3>
-                        <div style="margin-top: 0.25rem; font-size: 0.875rem; color: #B45309;">
+                    <div class="ml-3">
+                        <h3 class="text-sm font-semibold text-amber-800">Time is up</h3>
+                        <div class="mt-1 text-sm text-amber-700">
                             The available time to answer the questionnaire has ended. Your answers were not submitted.
                         </div>
                     </div>

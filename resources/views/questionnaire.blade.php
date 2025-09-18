@@ -5,20 +5,20 @@
         </h2>
     </x-slot>
 
-    <div style="max-width: 80rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; margin-top: 1.5rem;">
-        <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); border: 1px solid #e5e7eb; border-radius: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 1.5rem; margin-bottom: 1.5rem;">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
-                <h2 style="font-size: 2rem; font-weight: 700; letter-spacing: -0.01em; color: #111827; display: flex; align-items: center; gap: 0.75rem; margin:0;">
-                    <span style="display: inline-flex; height: 2.5rem; width: 2.5rem; align-items: center; justify-content: center; border-radius: 0.5rem; background-color: #4f46e5; color: #fff; font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">Q</span>
+    <div class="max-w-7xl mx-auto px-4 mt-6">
+        <div class="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-3 m-0">
+                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 text-white font-semibold shadow-sm">Q</span>
                     <span>{{ $testName }}</span>
                 </h2>
-                <div id="countdown-timer" data-minutes="{{ (int) $testDuration }}" style="display:flex; align-items:center; gap:0.75rem; background:#1f2937; color:#f9fafb; padding:0.75rem 1rem; border-radius:0.5rem; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; box-shadow:0 0 0 1px rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.08);">
-                    <span style="font-size:0.75rem; letter-spacing:0.05em; text-transform:uppercase; opacity:0.75; font-weight:600;">{{ __('Time left') }}</span>
-                    <span id="countdown-display" style="font-size:1.25rem; font-weight:700; letter-spacing:0.05em;">--:--</span>
+                <div id="countdown-timer" data-minutes="{{ (int) $testDuration }}" class="flex items-center gap-3 bg-white/100 text-gray-800 px-4 py-3 rounded-lg font-mono shadow ring-1 ring-white/5">
+                    <span class="text-[0.7rem] tracking-wider uppercase opacity-75 font-semibold">{{ __('Time left') }}</span>
+                    <span id="countdown-display" class="text-xl font-bold tracking-wider">--:--</span>
                 </div>
             </div>
             @isset($testDescription)
-                <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #4b5563; line-height: 1.625;">{{ $testDescription }}</p>
+                <p class="mt-3 text-sm text-gray-600 leading-relaxed">{{ $testDescription }}</p>
             @endisset
         </div>
     </div>
@@ -36,9 +36,9 @@
                             </p>
                             <div class="space-y-3">
                                 @foreach($question->answers as $aIndex => $answer)
-                                    <label class="flex items-center cursor-pointer" style="user-select:none;">
-                                        <input type="radio" name="question{{ $question->id }}" value="{{ $answer->score }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}">
-                                        <span class="text-gray-700" style="margin-left:14px; display:inline-block;">{{ $answer->answer_text }}</span>
+                                    <label class="flex items-center cursor-pointer select-none">Q{{ $question->id }}  A{{ $answer->id }}
+                                        <input type="radio" name="answer_{{ $question->id }}" value="{{ $answer->id }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}">
+                                        <span class="text-gray-700 ml-3 inline-block">{{ $answer->answer_text }}</span>
                                     </label>
                                 @endforeach
                             </div>
@@ -46,28 +46,12 @@
                     </div>
                 </div>
             @endforeach
-            <input type="hidden" name="testId" value="{{$testId}}">
-            <div class="mt-6 flex items-center justify-center gap-4" id="submit-wrapper" style="display: none;">
+            <div class="mt-6 items-center justify-center gap-4 hidden" id="submit-wrapper">
                 <x-primary-button>
                     {{ __('Score') }}
                 </x-primary-button>
-                <button type="button" id="reset-questionnaire" 
-                    style="
-                        padding: 0.5rem 1rem;
-                        background-color: #4f46e5;
-                        border: none;
-                        border-radius: 0.375rem;
-                        font-weight: 600;
-                        font-size: 0.75rem;
-                        text-transform: uppercase;
-                        color: #fff;
-                        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-                        letter-spacing: 0.05em;
-                        transition: background 0.15s, box-shadow 0.15s;
-                        cursor: pointer;
-                    "
-                    onmouseover="this.style.backgroundColor='#6366f1'"
-                    onmouseout="this.style.backgroundColor='#4f46e5'"
+                <button type="button" id="reset-questionnaire"
+                    class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
                 >
                     {{ __('Reset') }}
                 </button>
@@ -123,9 +107,9 @@
                 }
             }
 
-            function disableGroupInputs(groupName) {
-                document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => r.disabled = true);
-            }
+            // function disableGroupInputs(groupName) {
+            //     document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => r.disabled = true);
+            // }
 
             function enableAllInputs() {
                 document.querySelectorAll('.answer-radio').forEach(r => { r.disabled = false; r.checked = false; });

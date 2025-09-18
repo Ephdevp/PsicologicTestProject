@@ -67,4 +67,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Answer::class, 'answer_user', 'user_id', 'answer_id')->withTimestamps();
     }
+
+    // Mutator: siempre guardar el nombre en minúsculas
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = is_string($value) ? mb_strtolower($value, 'UTF-8') : $value;
+    }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
                 'intellectual', 
                 'willpower'
                 ])->nullable();
-            $table->enum('factor', ['A', 'B', 'C', 'E'])->nullable();
+            $table->unsignedBigInteger('factor_id')->nullable();
             $table->text('question_text')->nullable();
             $table->timestamps();
         });

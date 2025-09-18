@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             InterpretationDataSeeder::class,
             StenAgeSeeder::class,
             SuperAdminUserSeeder::class,
+            FactorSeeder::class,
             TestSeeder::class,
             TestQuestionsSeeder::class,
             QuestionAnswersSeeder::class,

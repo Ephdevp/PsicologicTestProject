@@ -15,7 +15,7 @@ class Question extends Model
         'question_id',
         'test_id',
         'group',
-        'factor',
+        'factor_id',
         'question_text',
     ];
 
@@ -28,5 +28,10 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany(Answer::class, 'question_id');
+    }
+
+    public function factor()
+    {
+        return $this->belongsTo(Factor::class, 'factor_id');
     }
 }
