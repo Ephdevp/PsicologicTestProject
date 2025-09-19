@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
             UserLevelSeeder::class,
             InterpretationDataSeeder::class,
             StenAgeSeeder::class,
-            SuperAdminUserSeeder::class,
+            UserSeeder::class,
             FactorSeeder::class,
             TestSeeder::class,
             TestQuestionsSeeder::class,
             QuestionAnswersSeeder::class,
+            TestUserSeeder::class,
         ]);
     }
 }

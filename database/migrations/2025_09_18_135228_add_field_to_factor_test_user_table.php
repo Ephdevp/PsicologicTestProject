@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('test_user', function (Blueprint $table) {
+        Schema::table('factor_test_user', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
+            $table->foreign('factor_id')->references('id')->on('factors')->onDelete('cascade');
         });
     }
 
@@ -22,9 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('test_user', function (Blueprint $table) {
+        Schema::table('factor_test_user', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['test_id']);
+            $table->dropForeign(['factor_id']);
         });
     }
 };

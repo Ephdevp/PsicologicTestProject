@@ -1,25 +1,23 @@
-## Changelog v0.3.0 (2025-09-17)
+## Changelog v0.4.0 (2025-09-19)
 This version introduces the first functional iteration of the personal data flow and prepares the application for psychological tests.
 
 ### Key Changes
-1. Profile / Personal Data:
-   - Unified form (create / update) always visible.
-   - Validation and full English translation.
-   - Visual alerts if the user tries to navigate without completing their data.
-2. `EnsureUserHasPerson` middleware forces personal data registration before continuing.
-3. Authentication flow adjustments:
-   - Registration assigns `user_level_id = 3`.
-   - Post-login and post-registration redirect to profile.
-4. Person management (`person.store` and `person.update` endpoints).
-5. Initial UI components for Tests (available / completed tests widgets - demo data).
-6. Consistent UX and session keys (`person-updated`, `person_required`).
-7. Seeders added / improved:
-   - User levels (`super_admin`, `admin`, `user`).
-   - Default Super Admin user.
-   - Bulk loading of interpretation data and Sten Age tables.
-8. Eloquent relationships configured (User, Person, Question, Test, etc.).
-9. Bootstrap / routing adjustments to register global middleware.
-10. Cleanup and structural alignment to Laravel 12 style.
+1. Dashboard results flow:
+   - Loader overlay shows “Analizando respuestas” for ~7 seconds after submission.
+   - Results modal opens automatically and lists items as “Factor: {index}_Sten: {value}”.
+   - Results are passed via session(`results`) from the controller.
+2. Test cards behavior:
+   - If a test status is `completed` (model or pivot), card renders without link and shows a green “Completed!” badge.
+   - Pending tests remain clickable and show the questions counter.
+3. Scoring pipeline:
+   - Aggregation by factor name across answers; total score per factor calculated server-side.
+   - Database function `lookup_sten` used to compute Sten; result normalized and returned to UI.
+4. Database & migrations:
+   - Migration to create SQL function `lookup_sten` added.
+   - Collation migration to utf8mb4_unicode_ci (IMPLICIT) applied across database/tables where needed.
+5. Controllers:
+   - `TestController@questionarieSubmit` builds the `results` array grouped by factor and flashes it to session.
+   - `DashboardController@index` loads user tests via pivot to expose status for UI rendering.
 
 ---
 

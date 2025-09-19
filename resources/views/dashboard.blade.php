@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pending Tests') }}
+            {{ __('Available Tests') }}
         </h2>
     </x-slot>
 
@@ -34,24 +34,88 @@
         </script>
     @endif
 
+    @if(session('results') && !empty(session('results')))
+        <!-- Loader: Analizando respuestas -->
+        <div id="result-loader" class="fixed inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative bg-white w-full max-w-sm mx-4 rounded-lg shadow-xl border border-gray-200 p-6 flex flex-col items-center justify-center gap-4">
+                <div class="h-12 w-12 rounded-full border-4 border-gray-200 border-t-indigo-600 animate-spin"></div>
+                <div class="text-base font-medium text-gray-800">Analyzing answers</div>
+                <div class="text-xs text-gray-500">This will take a few seconds…</div>
+            </div>
+        </div>
+
+        <!-- Modal de resultados (inicialmente oculta) -->
+        <div id="result-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+            <div class="absolute inset-0 bg-black/50" onclick="document.getElementById('result-modal')?.classList.add('hidden')"></div>
+            <div class="relative bg-white w-full max-w-lg mx-4 rounded-lg shadow-xl border border-gray-200">
+                <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-800">Results</h3>
+                    <button type="button" class="text-gray-500 hover:text-gray-700" aria-label="Close" onclick="document.getElementById('result-modal')?.classList.add('hidden')">✕</button>
+                </div>
+                <div class="p-5 max-h-[60vh] overflow-y-auto">
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        @foreach(session('results') as $index => $value)
+                            <li class="flex items-start">
+                                <span>Factor: {{ $index }}_Sten: {{ $value }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="px-5 py-4 border-t border-gray-200 flex justify-end">
+                    <button type="button" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700" onclick="document.getElementById('result-modal')?.classList.add('hidden')">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Tras ~7 segundos, ocultar loader y mostrar modal
+            (function() {
+                const loader = document.getElementById('result-loader');
+                const modal = document.getElementById('result-modal');
+                if (loader && modal) {
+                    setTimeout(() => {
+                        loader.remove();
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    }, 7000);
+                }
+            })();
+        </script>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
             @forelse($tests as $test)
-                <a href="{{ route('questionnaire.index', $test->id) }}" class="block group mb-2">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 group-hover:border-indigo-400 transition">
-                        <div class="p-6 text-gray-900 flex justify-between items-center">
-                            <div class="flex flex-col">
-                                <span class="font-semibold text-lg group-hover:text-indigo-600">{{ $test->name }}</span>
-                                <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
+                @if($test->pivot->status === 'completed')
+                    <div class="block mb-2">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 transition">
+                            <div class="p-6 text-gray-900 flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-lg">{{ $test->name }}</span>
+                                    <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
+                                </div>
+                                <span class="ml-4 text-sm font-semibold text-green-600">Completed!</span>
                             </div>
-                            @php
-                                $totalQuestions = $test->questions()->count();
-                                $answered = 0; // placeholder until answer tracking implemented
-                            @endphp
-                            <span class="ml-4 text-sm text-gray-500">{{ $answered }}/{{ $totalQuestions }}</span>
                         </div>
                     </div>
-                </a>
+                @else
+                    <a href="{{ route('questionnaire.index', $test->id) }}" class="block group mb-2">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 group-hover:border-indigo-400 transition">
+                            <div class="p-6 text-gray-900 flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-lg group-hover:text-indigo-600">{{ $test->name }}</span>
+                                    <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
+                                </div>
+                                @php
+                                    $totalQuestions = $test->questions()->count();
+                                    $answered = 0; // placeholder until answer tracking implemented
+                                @endphp
+                                <span class="ml-4 text-sm text-gray-500">{{ $answered }}/{{ $totalQuestions }}</span>
+                            </div>
+                        </div>
+                    </a>
+                @endif
             @empty
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-dashed border-gray-300">
                     <div class="p-6 text-gray-600 text-center text-sm">

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_test', function (Blueprint $table) {
+        Schema::table('test_user', function (Blueprint $table) {
             $table->timestamp('completed_at')->nullable()->comment('Timestamp when the user completed the test');
             $table->enum('status', ['not_started', 'completed'])->default('not_started')->comment('Status of the test for the user');
         });
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_test', function (Blueprint $table) {
-            $table->dropColumn(['score', 'completed_at', 'status']);
+        Schema::table('test_user', function (Blueprint $table) {
+            $table->dropColumn(['completed_at', 'status']);
         });
     }
 };

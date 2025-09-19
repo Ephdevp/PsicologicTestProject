@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Test;
+use App\Models\Answer;
+use App\Models\Factor;
 use App\Models\Question;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
@@ -16,30 +17,86 @@ class TestController extends Controller
         $requestCount = count($request->all());
 
         $user = Auth::user();
-        $age = $user->person->age ?? null;
-        $gender = $user->person->gender ?? null;
-        // Prueba de la función lookup_sten: usar un factor y raw ficticio si hay edad y sexo.
-        $testLookup = null;
-        if ($age && $gender) {
-            // Escoge un factor de ejemplo; podría venir de la request en el futuro.
-            $factor = 'A';
-            $raw = 10; // valor de prueba
-            try {
-                $row = DB::select('SELECT lookup_sten(?, ?, ?, ?) AS sten', [$gender, $age, $factor, $raw]);
-                $testLookup = $row[0]->sten ?? null;
-            } catch (\Throwable $e) {
-                Log::error('Error calling lookup_sten: '.$e->getMessage());
-            }
+        $age = $user->people->first()->age ?? null;
+        $gender = $user->people->first()->gender ?? null;
+
+        $answereIdList = [];
+        $questionIdList = [];
+        $results = [];
+        $factorList = [];
+        // Collect all answers from the request
+        foreach($request->all() as $value)
+        {
+            $answereIdList[] = $value;
         }
 
-        // Devolver respuesta temporal con datos de debug
-        return response()->json([
-            'request_count' => $requestCount,
-            'age' => $age,
-            'gender' => $gender,
-            'lookup_test_factor' => $factor ?? null,
-            'lookup_test_raw' => $raw ?? null,
-            'lookup_sten_result' => $testLookup,
-        ]);
+        //get all answers ids from request
+        $answerIds = [];
+        for ($i = 1; $i < $requestCount; $i++) {
+            $answerIds[] = $answereIdList[$i];
+        }
+        
+        //get all question ids from answers
+        foreach($answerIds as $id)
+        {
+            
+            $answer = Answer::where('id', $id)->first();
+            //$question = $answer->question->factor->name;
+            $factorList[] = $answer->question->factor->name;
+            $questionIdList[] = $answer->question->id;
+        }
+
+        // var_dump($factorList);
+        // die();
+        
+        foreach($factorList as $factor)
+        {
+            $value = 0;
+            foreach($answerIds as $answerId)
+            {
+                $answer = Answer::where('id', $answerId)->first();
+                if($answer->question->factor->name == $factor)
+                {
+                    $value += $answer->score;
+                    continue;
+                }
+            }
+
+            $result = DB::select("SELECT lookup_sten(?, ?, ?, ?)-5 AS sten", [
+                        $gender,
+                        $age,
+                        $factor,
+                        $value
+                    ]);
+            $results[$factor] = $result[0]->sten ?? null;
+
+        }
+        // var_dump($results);
+        // die();
+        //cambiar el estado del test_user a 'completed'
+        $test_id = $answer->question->test_id;
+
+        DB::table('test_user')
+            ->where('user_id', $user->id)
+            ->where('test_id', $test_id)
+            ->where('status', 'not_started')
+            ->update([
+                'status' => 'completed',
+                'completed_at' => Carbon::now(),
+            ]);
+
+            if($answerIds)
+            {
+                foreach($answerIds as $answerId)
+                {
+                    DB::table('answer_user')->insert([
+                        'user_id' => $user->id,
+                        'answer_id' => $answerId,
+                    ]);
+                }
+            }
+
+        return redirect()->route('dashboard.index')->with('results', $results);
+
     }
 }

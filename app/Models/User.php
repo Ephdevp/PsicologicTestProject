@@ -50,7 +50,7 @@ class User extends Authenticatable
     // Define the relationship with the Test model through the pivot table
     public function tests()
     {
-        return $this->belongsToMany(Test::class, 'user_test', 'user_id', 'test_id')->withTimestamps();
+        return $this->belongsToMany(Test::class, 'test_user', 'user_id', 'test_id')->withTimestamps()->withPivot('status');
     }
 
     public function people()
@@ -66,6 +66,11 @@ class User extends Authenticatable
     public function answers()
     {
         return $this->belongsToMany(Answer::class, 'answer_user', 'user_id', 'answer_id')->withTimestamps();
+    }
+
+    public function factors_test()
+    {
+        return $this->belongsToMany(Factor::class, 'factor_test_user', 'user_id', 'factor_id')->withTimestamps();
     }
 
     // Mutator: siempre guardar el nombre en minúsculas

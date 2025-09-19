@@ -36,8 +36,8 @@
                             </p>
                             <div class="space-y-3">
                                 @foreach($question->answers as $aIndex => $answer)
-                                    <label class="flex items-center cursor-pointer select-none">Q{{ $question->id }}  A{{ $answer->id }}
-                                        <input type="radio" name="answer_{{ $question->id }}" value="{{ $answer->id }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}">
+                                    <label class="flex items-center cursor-pointer select-none">
+                                        <input type="radio" name="Answere_{{ $question->id }}" value="{{ $answer->id }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}">
                                         <span class="text-gray-700 ml-3 inline-block">{{ $answer->answer_text }}</span>
                                     </label>
                                 @endforeach

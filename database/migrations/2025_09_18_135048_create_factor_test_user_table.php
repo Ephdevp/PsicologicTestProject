@@ -11,16 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_test', function (Blueprint $table) {
+        Schema::create('factor_test_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('test_id');
+            $table->unsignedBigInteger('factor_id');
             $table->timestamps();
-            $table->unique(['user_id', 'test_id']);
         });
     }
+
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('user_test');
+        Schema::dropIfExists('factor_test_user');
     }
 };
