@@ -14,12 +14,7 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('test_id')->nullable();
-            $table->enum('group', [
-                'communicative', 
-                'emotional', 
-                'intellectual', 
-                'willpower'
-                ])->nullable();
+            $table->text('group')->nullable();
             $table->unsignedBigInteger('factor_id')->nullable();
             $table->text('question_text')->nullable();
             $table->timestamps();

@@ -11,7 +11,7 @@ class TestSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Sample Anxiety Test',
+                'name' => 'A',
                 'description' => 'Measures general anxiety indicators for baseline assessment.',
                 'max_duration' => 10,
                 'status' => 'active',
@@ -19,7 +19,7 @@ class TestSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Cognitive Speed Check',
+                'name' => 'B',
                 'description' => 'Quick evaluation of processing speed and attention.',
                 'max_duration' => 7,
                 'status' => 'active',

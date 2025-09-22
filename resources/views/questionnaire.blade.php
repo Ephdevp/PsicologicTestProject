@@ -96,17 +96,22 @@
 
             function showNext(currentIndex) {
                 const nextIndex = currentIndex + 1;
+                const currentCard = cards[currentIndex];
+                if (currentCard) {
+                    currentCard.style.display = 'none';
+                }
                 if (nextIndex < total) {
                     const nextCard = cards[nextIndex];
-                    if (nextCard.style.display === 'none') {
-                        nextCard.style.display = 'block';
-                        nextCard.classList.add('animate-fade-in');
-                    }
+                    nextCard.style.display = 'block';
+                    nextCard.classList.add('animate-fade-in');
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
                     submitWrapper.style.display = 'flex';
+                    submitWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
 
+            // (Optional) If you prefer to lock answers, enable this function and call it on change.
             // function disableGroupInputs(groupName) {
             //     document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => r.disabled = true);
             // }
@@ -128,7 +133,7 @@
                 radio.addEventListener('change', function (e) {
                     const qIdx = parseInt(e.target.getAttribute('data-question-index'), 10);
                     showNext(qIdx);
-                    disableGroupInputs(e.target.name);
+                    // disableGroupInputs(e.target.name);
                 });
             });
 
