@@ -39,29 +39,25 @@ class TestController extends Controller
         //get all question ids from answers
         foreach($answerIds as $id)
         {
-            
+
             $answer = Answer::where('id', $id)->first();
-            //$question = $answer->question->factor->name;
-            $factorList[] = $answer->question->factor->name;
+            if($answer->question->factor_id == null) continue;
+            $factorList[] = $answer->question->factor_id;
             $questionIdList[] = $answer->question->id;
         }
 
-        // var_dump($factorList);
-        // die();
-        
         foreach($factorList as $factor)
         {
             $value = 0;
             foreach($answerIds as $answerId)
             {
                 $answer = Answer::where('id', $answerId)->first();
-                if($answer->question->factor->name == $factor)
+                if($answer->question->factor_id == $factor)
                 {
                     $value += $answer->score;
-                    continue;
                 }
             }
-
+            $factor = Factor::where('id', $factor)->first()->name;
             $result = DB::select("SELECT lookup_sten(?, ?, ?, ?)-5 AS sten", [
                         $gender,
                         $age,
@@ -71,9 +67,7 @@ class TestController extends Controller
             $results[$factor] = $result[0]->sten ?? null;
 
         }
-        // var_dump($results);
-        // die();
-        //cambiar el estado del test_user a 'completed'
+        // Mark the test as completed for the user
         $test_id = $answer->question->test_id;
 
         DB::table('test_user')

@@ -11,7 +11,7 @@ class TestQuestionsSeeder extends Seeder
 {
     public function run(): void
     {
-        $sqlPath = database_path('seeders/data/interpretation_data_trimmed.sql');
+        $sqlPath = database_path('seeders/data/questions_dump.sql');
         if (! File::exists($sqlPath)) {
             $this->command?->error("SQL data file not found: {$sqlPath}");
             return;
