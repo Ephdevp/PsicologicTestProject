@@ -13,7 +13,7 @@ class TestSeeder extends Seeder
             [
                 'name' => 'Test A',
                 'description' => 'Measures general anxiety indicators for baseline assessment.',
-                'max_duration' => 10,
+                'max_duration' => 45,
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),

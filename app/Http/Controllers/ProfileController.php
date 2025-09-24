@@ -16,8 +16,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $available = $user->tests()->where('test_user.status', 'not_started')->get();
+        $completed = $user->tests()->where('test_user.status', 'completed')->get();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'available' => $available,
+            'completed' => $completed,
         ]);
     }
 

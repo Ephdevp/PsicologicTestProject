@@ -1,16 +1,4 @@
-@php
-    // Hardcoded demo data
-    $available = [
-        ['title' => 'Anxiety Scale', 'description' => 'Assess current anxiety levels', 'estimated' => '5 min'],
-        ['title' => 'Depression Inventory', 'description' => 'Screen for depressive symptoms', 'estimated' => '7 min'],
-        ['title' => 'Stress Profile', 'description' => 'Evaluate perceived stress', 'estimated' => '4 min'],
-    ];
 
-    $completed = [
-        ['title' => 'Personality Trait Test', 'date' => '2025-09-10', 'score' => '85/100'],
-        ['title' => 'Cognitive Assessment', 'date' => '2025-09-12', 'score' => '78/100'],
-    ];
-@endphp
 
 <section>
     <header class="mb-4">
@@ -36,9 +24,9 @@
                 @endforeach
             </ul>
             <div class="mt-4">
-                <button type="button" class="inline-flex items-center px-3 py-2 bg-white/20 hover:bg-white/30 text-sm font-medium rounded-md transition">
+                <a href="{{route('dashboard.index')}}" class="inline-flex items-center px-3 py-2 bg-white/20 hover:bg-white/30 text-sm font-medium rounded-md transition">
                     {{ __('View all') }}
-                </button>
+                </a>
             </div>
         </div>
 
