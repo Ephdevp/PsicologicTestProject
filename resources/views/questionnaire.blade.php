@@ -50,11 +50,11 @@
                 <x-primary-button>
                     {{ __('Score') }}
                 </x-primary-button>
-                <button type="button" id="reset-questionnaire"
+                {{-- <button type="button" id="reset-questionnaire"
                     class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
                 >
                     {{ __('Reset') }}
-                </button>
+                </button> --}}
             </div>
         </form>
         </div>

@@ -28,9 +28,9 @@ class TestUserSeeder extends Seeder
             'test_id' => 1,
         ]);
 
-        // DB::table('test_user')->insert([
-        //     'user_id' => 2,
-        //     'test_id' => 2,
-        // ]);
+        DB::table('test_user')->insert([
+            'user_id' => 2,
+            'test_id' => 2,
+        ]);
     }
 }

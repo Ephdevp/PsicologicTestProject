@@ -17,9 +17,8 @@
             <ul class="space-y-3 text-sm flex-1">
                 @foreach($available as $t)
                     <li class="bg-white/10 backdrop-blur-sm rounded px-3 py-2">
-                        <p class="font-medium">{{ $t['title'] }}</p>
-                        <p class="text-white/80">{{ $t['description'] }}</p>
-                        <p class="text-xs text-white/60 mt-1">{{ __('Estimated:') }} {{ $t['estimated'] }}</p>
+                        <p class="font-medium">{{ $t['name'] }}</p>
+                        <p class="text-white/80">{{ $t['description'] == null ? __('No description available') : $t['description'] }}</p>
                     </li>
                 @endforeach
             </ul>

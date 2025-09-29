@@ -99,6 +99,18 @@
                             </div>
                         </div>
                     </div>
+                @elseif($test->name === 'Test B' && !$testACompleted)
+                    <div class="block mb-2">
+                        <div class="bg-gray-200 overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 transition">
+                            <div class="p-6 text-gray-500 flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-lg">{{ $test->name }}</span>
+                                    <span class="text-sm text-gray-400 line-clamp-1">{{ $test->description }}</span>
+                                </div>
+                                <span class="ml-4 text-sm font-semibold text-gray-400">To access this test, you must first complete Test A</span>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <a href="{{ route('questionnaire.index', $test->id) }}" class="block group mb-2">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 group-hover:border-indigo-400 transition">
