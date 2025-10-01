@@ -1,53 +1,31 @@
-## Changelog v0.4.0 (2025-09-19)
-This version introduces the first functional iteration of the personal data flow and prepares the application for psychological tests.
+## Changelog v0.5.1 (2025-10-01)
+This version fixes the “Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT)” error raised when calling the database function `lookup_sten`.
 
 ### Key Changes
-1. Dashboard results flow:
-   - Loader overlay shows “Analizando respuestas” for ~7 seconds after submission.
-   - Results modal opens automatically and lists items as “Factor: {index}_Sten: {value}”.
-   - Results are passed via session(`results`) from the controller.
-2. Test cards behavior:
-   - If a test status is `completed` (model or pivot), card renders without link and shows a green “Completed!” badge.
-   - Pending tests remain clickable and show the questions counter.
-3. Scoring pipeline:
-   - Aggregation by factor name across answers; total score per factor calculated server-side.
-   - Database function `lookup_sten` used to compute Sten; result normalized and returned to UI.
-4. Database & migrations:
-   - Migration to create SQL function `lookup_sten` added.
-   - Collation migration to utf8mb4_unicode_ci (IMPLICIT) applied across database/tables where needed.
-5. Controllers:
-   - `TestController@questionarieSubmit` builds the `results` array grouped by factor and flashes it to session.
-   - `DashboardController@index` loads user tests via pivot to expose status for UI rendering.
+1. Database
+   - Added migration `2025_10_01_000000_recreate_lookup_sten_with_unicode_collation.php` that drops and recreates the SQL function `lookup_sten`.
+   - The function now explicitly uses `utf8mb4_unicode_ci` for its string parameters and comparisons, ensuring consistent collation with the schema.
+   - No data model changes to tables; only the function is replaced.
 
----
+2. Stability
+   - Resolves MySQL error HY000 1267 caused by collation mismatch during `sex` and `factor` comparisons inside the function.
 
-## (Referencia) Detalle de Funcionalidades v0.3.0
+### Upgrade Notes
+- Run the migrations to recreate the function:
 
-### New & Updated Features (English Summary)
-1. Profile page enhancements:
-   - Always-visible Personal Data form (create/update unified) with validation and English translation.
-   - Conditional tests widgets section (Available Tests & Completed Tests) shown when user has personal data; auto-scrolls into view on load.
-   - Red alert + warning icon when middleware redirects user without personal data (inputs highlighted).
-2. Middleware: `EnsureUserHasPerson` forces users to complete personal data before navigating the app.
-3. Authentication flow adjustments:
-   - Registration assigns default `user_level_id = 3` (user level).
-   - Post-login & post-registration redirect to profile instead of dashboard.
-4. Person management:
-   - Backend create & update endpoints (`person.store`, `person.update`).
-   - Form supports gender options (male, female, other) and unified UX.
-5. UI components:
-   - Tests overview widgets (hardcoded demo data) with modern Tailwind styling.
-6. Language & UX:
-   - Personal Data form fully translated to English.
-   - Consistent status flash keys (`person-updated`, `person_required`).
-7. Seeders added/improved:
-   - User levels (`super_admin`, `admin`, `user`).
-   - Super admin user (`SuperAdminUserSeeder`) with default credentials.
-   - Interpretation data bulk insert.
-   - Sten age data bulk insert.
-8. Eloquent relationships defined across models (User, Person, Question, Test, etc.).
-9. Routing & bootstrap configuration updated to register custom middleware in web group (`bootstrap/app.php`).
-10. Codebase cleanup & structural alignment for Laravel 12 style configuration.
+```powershell
+php artisan migrate
+```
+
+- Optional: rollback only this migration if necessary:
+
+```powershell
+php artisan migrate:rollback --path=database/migrations/2025_10_01_000000_recreate_lookup_sten_with_unicode_collation.php
+```
+
+### Troubleshooting
+- Ensure the database/tables are on `utf8mb4_unicode_ci`. This repo includes `2025_09_18_091500_convert_collations_to_utf8mb4_unicode_ci.php` to enforce it at the schema/table level.
+- If issues persist, verify the function exists and was recreated after the collation conversion migration.
 
 ---
 
