@@ -15,18 +15,28 @@
                 {{ __('Available Tests') }}
             </h3>
             <ul class="space-y-3 text-sm flex-1">
-                @foreach($available as $t)
+                @forelse($available as $t)
                     <li class="bg-white/10 backdrop-blur-sm rounded px-3 py-2">
                         <p class="font-medium">{{ $t['name'] }}</p>
                         <p class="text-white/80">{{ $t['description'] == null ? __('No description available') : $t['description'] }}</p>
                     </li>
-                @endforeach
+                @empty
+                    <li class="text-white/80 italic">{{ __('No available tests at the moment.') }}</li>  
+                @endforelse
             </ul>
-            <div class="mt-4">
-                <a href="{{route('dashboard.index')}}" class="inline-flex items-center px-3 py-2 bg-white/20 hover:bg-white/30 text-sm font-medium rounded-md transition">
+            <div class="mt-4 flex gap-2">
+                <a href="{{route('dashboard.index')}}" class="inline-flex items-center justify-center px-3 py-2 bg-white/20 hover:bg-white/30 text-sm font-medium rounded-md transition w-full">
                     {{ __('View all') }}
                 </a>
-            </div>
+                <a href="#" class="inline-flex items-center justify-center px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-semibold rounded-md shadow transition w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <rect x="2" y="7" width="20" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <rect x="6" y="15" width="6" height="2" rx="1" fill="currentColor"/>
+                        <line x1="2" y1="11" x2="22" y2="11" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span class="ms-2">{{ __('Buy more tests') }}</span>
+                </a>  
+            </div>  
         </div>
 
         <div class="p-5 bg-white border border-gray-200 rounded-lg shadow flex flex-col">

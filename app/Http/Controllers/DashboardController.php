@@ -12,8 +12,12 @@ class DashboardController extends Controller
         $user = Auth::user();
         $tests = $user->tests()->wherePivot('user_id', $user->id)->get();
         $testA = $user->tests()->where('name', 'Test A')->first();
+        $testACompleted = false;
+        if($testA)
+        {
+            $testACompleted = $testA->pivot->status == 'completed' ?? false;
+        }
 
-        $testACompleted = $testA->pivot->status == 'completed';
 
         return view('dashboard', compact('user', 'tests', 'testACompleted'));
     }

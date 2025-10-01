@@ -1,32 +1,9 @@
-## Changelog v0.5.1 (2025-10-01)
-This version fixes the “Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT)” error raised when calling the database function `lookup_sten`.
+## Changelog v0.5.2 (2025-10-01)
+Maintenance release focused on documentation and operability around the collation fix introduced in v0.5.1.
 
 ### Key Changes
-1. Database
-   - Added migration `2025_10_01_000000_recreate_lookup_sten_with_unicode_collation.php` that drops and recreates the SQL function `lookup_sten`.
-   - The function now explicitly uses `utf8mb4_unicode_ci` for its string parameters and comparisons, ensuring consistent collation with the schema.
-   - No data model changes to tables; only the function is replaced.
-
-2. Stability
-   - Resolves MySQL error HY000 1267 caused by collation mismatch during `sex` and `factor` comparisons inside the function.
-
-### Upgrade Notes
-- Run the migrations to recreate the function:
-
-```powershell
-php artisan migrate
-```
-
-- Optional: rollback only this migration if necessary:
-
-```powershell
-php artisan migrate:rollback --path=database/migrations/2025_10_01_000000_recreate_lookup_sten_with_unicode_collation.php
-```
-
-### Troubleshooting
-- Ensure the database/tables are on `utf8mb4_unicode_ci`. This repo includes `2025_09_18_091500_convert_collations_to_utf8mb4_unicode_ci.php` to enforce it at the schema/table level.
-- If issues persist, verify the function exists and was recreated after the collation conversion migration.
-
+1. Fixed an error when displaying the dashboard view for users without records in the `test_user` table.
+2. Added a 'Buy more tests' link in the `tests-widgets` widget on the profile view. 
 ---
 
 ## License
