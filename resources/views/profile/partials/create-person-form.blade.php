@@ -24,9 +24,9 @@
         </div>
 
         <div>
-            <x-input-label for="person_age" :value="__('Age')" />
-            <x-text-input id="person_age" name="age" type="number" min="1" max="120" class="mt-1 block w-full" :value="old('age')" required />
-            <x-input-error class="mt-2" :messages="$errors->get('age')" />
+            <x-input-label for="person_birthdate" :value="__('Birthdate')" />
+            <x-text-input id="person_birthdate" name="birthdate" type="date" class="mt-1 block w-full" :value="old('birthdate')" required />
+            <x-input-error class="mt-2" :messages="$errors->get('birthdate')" />
         </div>
 
         <div>

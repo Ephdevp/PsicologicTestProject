@@ -42,9 +42,9 @@
         </div>
 
         <div>
-            <x-input-label for="age" :value="__('Age')" />
-            <x-text-input id="age" name="age" type="number" min="1" max="120" class="mt-1 block w-full {{ $errorBorder }}" :value="old('age', $person->age ?? '')" required />
-            <x-input-error class="mt-2" :messages="$errors->get('age')" />
+            <x-input-label for="birthdate" :value="__('Birthdate')" />
+            <x-text-input id="birthdate" name="birthdate" type="date" class="mt-1 block w-full {{ $errorBorder }}" :value="old('birthdate', $person->birthdate ?? '')" required />
+            <x-input-error class="mt-2" :messages="$errors->get('birthdate')" />
         </div>
 
         <div>

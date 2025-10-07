@@ -35,27 +35,36 @@
                                 {{ ($qIndex+1) . '. ' . $question->question_text }}
                             </p>
                             <div class="space-y-3">
-                                @foreach($question->answers as $aIndex => $answer)
+                @foreach($question->answers as $aIndex => $answer)
                                     <label class="flex items-center cursor-pointer select-none">
-                                        <input type="radio" name="Answere_{{ $question->id }}" value="{{ $answer->id }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}">
+                    <input type="radio" name="Answere_{{ $question->id }}" value="{{ $answer->id }}" class="form-radio h-5 w-5 text-indigo-600 answer-radio" data-question-index="{{ $qIndex }}" required>
                                         <span class="text-gray-700 ml-3 inline-block">{{ $answer->answer_text }}</span>
                                     </label>
                                 @endforeach
                             </div>
+                            @if($qIndex < ($countQuestions - 1))
+                                <div class="mt-6 flex flex-col items-end gap-2">
+                                    <button type="button" class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 next-button" data-question-index="{{ $qIndex }}">
+                                        Next
+                                    </button>
+                                    <div class="hidden text-sm text-red-600 next-alert" data-question-index="{{ $qIndex }}">
+                                        {{ __('Please select an answer to continue.') }}
+                                    </div>
+                                </div>
+                            @else
+                                <div class="mt-6 flex justify-end">
+                                    <x-primary-button>
+                                        {{ __('Score') }}
+                                    </x-primary-button>
+                                </div>
+                                <div class="mt-2 text-sm text-red-600 submit-alert hidden">
+                                    {{ __('Please select an answer to continue.') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             @endforeach
-            <div class="mt-6 items-center justify-center gap-4 hidden" id="submit-wrapper">
-                <x-primary-button>
-                    {{ __('Score') }}
-                </x-primary-button>
-                {{-- <button type="button" id="reset-questionnaire"
-                    class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
-                >
-                    {{ __('Reset') }}
-                </button> --}}
-            </div>
         </form>
         </div>
     </div>
@@ -75,7 +84,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('questionnaire-form');
             const cards = Array.from(document.querySelectorAll('.question-card'));
-            const submitWrapper = document.getElementById('submit-wrapper');
             const resetBtn = document.getElementById('reset-questionnaire');
             const loader = document.getElementById('loader');
             const total = cards.length;
@@ -84,25 +92,41 @@
             const timerEl = document.getElementById('countdown-timer');
             if (timerEl) {
                 const displayEl = document.getElementById('countdown-display');
-                let remaining = parseInt(timerEl.getAttribute('data-minutes'), 10) * 60; // seconds
+                const minutes = parseInt(timerEl.getAttribute('data-minutes'), 10);
                 const redirectUrl = "{{ route('dashboard.index', [], false) }}?timeout=1";
-                if (!isNaN(remaining) && remaining > 0) {
-                    function format(t) {
-                        const m = Math.floor(t / 60).toString().padStart(2,'0');
-                        const s = (t % 60).toString().padStart(2,'0');
-                        return `${m}:${s}`;
+                const storageKey = 'questionnaire_endTime_{{ $testId }}';
+
+                function format(t) {
+                    const m = Math.floor(t / 60).toString().padStart(2,'0');
+                    const s = (t % 60).toString().padStart(2,'0');
+                    return `${m}:${s}`;
+                }
+
+                if (!isNaN(minutes) && minutes > 0) {
+                    let endTs = parseInt(localStorage.getItem(storageKey), 10);
+                    if (!Number.isFinite(endTs)) {
+                        endTs = Date.now() + minutes * 60 * 1000; // ms
+                        localStorage.setItem(storageKey, String(endTs));
                     }
-                    displayEl.textContent = format(remaining);
-                    const interval = setInterval(() => {
-                        remaining--;
+
+                    function tick() {
+                        const remaining = Math.max(0, Math.floor((endTs - Date.now()) / 1000));
+                        displayEl.textContent = format(remaining);
                         if (remaining <= 0) {
-                            displayEl.textContent = '00:00';
-                            clearInterval(interval);
+                            localStorage.removeItem(storageKey);
                             window.location.href = redirectUrl;
-                        } else {
-                            displayEl.textContent = format(remaining);
+                            return false; // stop
                         }
-                    }, 1000);
+                        return true;
+                    }
+
+                    // initial paint
+                    if (!tick()) { /* already timed out */ }
+                    else {
+                        const interval = setInterval(() => {
+                            if (!tick()) clearInterval(interval);
+                        }, 1000);
+                    }
                 }
             }
 
@@ -118,8 +142,7 @@
                     nextCard.classList.add('animate-fade-in');
                     nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
-                    submitWrapper.style.display = 'flex';
-                    submitWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Last card already has the submit button in place
                 }
             }
 
@@ -141,11 +164,20 @@
                 cards[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
-            document.querySelectorAll('.answer-radio').forEach(radio => {
-                radio.addEventListener('change', function (e) {
-                    const qIdx = parseInt(e.target.getAttribute('data-question-index'), 10);
+            // Next buttons navigation: advance only if current question has a selected answer
+            document.querySelectorAll('.next-button').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    const qIdx = parseInt(e.currentTarget.getAttribute('data-question-index'), 10);
+                    const currentCard = cards[qIdx];
+                    if (!currentCard) return;
+                    const hasSelection = !!currentCard.querySelector('input.answer-radio:checked');
+                    const alertEl = currentCard.querySelector('.next-alert[data-question-index="' + qIdx + '"]');
+                    if (!hasSelection) {
+                        if (alertEl) alertEl.classList.remove('hidden');
+                        return;
+                    }
+                    if (alertEl) alertEl.classList.add('hidden');
                     showNext(qIdx);
-                    // disableGroupInputs(e.target.name);
                 });
             });
 
@@ -157,6 +189,20 @@
 
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
+                // clear countdown persistence on successful submit
+                // Ensure last question is answered
+                const lastCard = cards[cards.length - 1];
+                const lastHasSelection = !!lastCard?.querySelector('input.answer-radio:checked');
+                const submitAlert = lastCard?.querySelector('.submit-alert');
+                if (!lastHasSelection) {
+                    if (submitAlert) submitAlert.classList.remove('hidden');
+                    lastCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                } else {
+                    if (submitAlert) submitAlert.classList.add('hidden');
+                }
+
+                try { localStorage.removeItem('questionnaire_endTime_{{ $testId }}'); } catch (_) {}
                 loader.style.display = 'flex';
 
                 setTimeout(() => {

@@ -1,3 +1,33 @@
+## Changelog v0.5.3 (2025-10-07)
+Enhancements to the questionnaire UX, client/server validation, and timer persistence.
+
+### Key Changes
+1. Questionnaire UX
+   - Replaced auto-advance on radio selection with an explicit Next button per question.
+   - The last question shows the Score button in the same position where Next appears for the others.
+   - Inline validation: if Next is pressed without a selection, an alert appears below the button.
+
+2. Timer persistence
+   - Countdown now persists across page refreshes using localStorage (keyed by test id) and clears on submit/timeout.
+
+3. Validation & robustness
+   - All radio inputs are marked as required in the form (HTML5).
+   - Server-side validation in TestController@questionarieSubmit ensures all questions are answered and parses inputs by key pattern `Answere_{questionId}`; no reliance on request order.
+   - Safer derivation of `test_id` from the first answer's question; avoids undefined variable usage.
+
+4. Model improvement
+   - Added `Person::getAgeAttribute()` accessor deriving age from `birthdate`; removed controller getter.
+
+### Verify
+- Navigate a questionnaire:
+  - Select an answer and press Next to advance. On the last question, use Score.
+  - Pressing Next without a selection shows an inline alert under the button.
+- Refresh the page: the countdown should not reset; when it reaches 0, the test times out as before.
+- Attempt to submit with any unanswered question: the server rejects and requests completion.
+
+### Notes
+- No new migrations introduced in v0.5.3. Ensure v0.5.1 migrations are applied for the `lookup_sten` collation fix.
+
 ## Changelog v0.5.2 (2025-10-01)
 Maintenance release focused on documentation and operability around the collation fix introduced in v0.5.1.
 

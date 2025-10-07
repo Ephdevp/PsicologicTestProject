@@ -14,34 +14,44 @@ class TestController extends Controller
 {
     public function questionarieSubmit(Request $request)
     {
-        $requestCount = count($request->all());
-
         $user = Auth::user();
         $age = $user->people->first()->age ?? null;
         $gender = $user->people->first()->gender ?? null;
 
-        $answereIdList = [];
-        $questionIdList = [];
+        // Extract answer inputs safely: keys like Answere_{questionId}
+        $answerInputs = collect($request->all())
+            ->filter(fn($v, $k) => str_starts_with($k, 'Answere_'));
+        if ($answerInputs->isEmpty()) {
+            return back()->withErrors(['answers' => __('You must answer the questionnaire.')]);
+        }
+
+        // Resolve testId using any provided answer → its question's test_id
+        $firstAnswerId = (int) $answerInputs->first();
+        $firstAnswer = Answer::with('question:id,test_id')->find($firstAnswerId);
+        if (! $firstAnswer || ! $firstAnswer->question) {
+            return back()->withErrors(['answers' => __('Invalid questionnaire submission.')]);
+        }
+        $test_id = (int) $firstAnswer->question->test_id;
+
+        // Validate that all questions of this test are answered
+        $questionIds = Question::where('test_id', $test_id)->pluck('id');
+        $providedQuestionIds = $answerInputs->keys()
+            ->map(fn($k) => (int) str_replace('Answere_', '', $k));
+        $missing = $questionIds->diff($providedQuestionIds);
+        if ($missing->isNotEmpty()) {
+            return back()->withErrors(['answers' => __('Please answer all questions before submitting.')]);
+        }
+
+        // Collect answer IDs as integers and map factor associations
+        $answerIds = $answerInputs->values()->map(fn($v) => (int) $v)->all();
         $results = [];
         $factorList = [];
-        // Collect all answers from the request
-        foreach($request->all() as $value)
-        {
-            $answereIdList[] = $value;
-        }
-
-        //get all answers ids from request
-        $answerIds = [];
-        for ($i = 1; $i < $requestCount; $i++) {
-            $answerIds[] = $answereIdList[$i];
-        }
+        $questionIdList = [];
         
-        //get all question ids from answers
         foreach($answerIds as $id)
         {
-
-            $answer = Answer::where('id', $id)->first();
-            if($answer->question->factor_id == null) continue;
+            $answer = Answer::with('question:id,factor_id,test_id')->find($id);
+            if(!$answer || !$answer->question || $answer->question->factor_id == null) continue;
             $factorList[] = $answer->question->factor_id;
             $questionIdList[] = $answer->question->id;
         }
@@ -58,17 +68,26 @@ class TestController extends Controller
                 }
             }
             $factor = Factor::where('id', $factor)->first()->name;
-            $result = DB::select("SELECT lookup_sten(?, ?, ?, ?)-5 AS sten", [
-                        $gender,
-                        $age,
-                        $factor,
-                        $value
-                    ]);
+            if($factor == 'L' || $factor == 'O' || $factor == 'Q4')
+            {
+                $result = DB::select("SELECT 5-lookup_sten(?, ?, ?, ?) AS sten", [
+                    $gender,
+                    $age,
+                    $factor,
+                    $value
+                ]);
+            }else{
+                $result = DB::select("SELECT lookup_sten(?, ?, ?, ?)-5 AS sten", [
+                    $gender,
+                    $age,
+                    $factor,
+                    $value
+                ]);
+            }
             $results[$factor] = $result[0]->sten ?? null;
 
         }
         // Mark the test as completed for the user
-        $test_id = $answer->question->test_id;
 
         DB::table('test_user')
             ->where('user_id', $user->id)

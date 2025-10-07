@@ -21,7 +21,7 @@ class PersonController extends Controller
         $validated = $request->validate([
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
-            'age' => ['required','integer','min:1','max:120'],
+            'birthdate' => ['required','date'],
             'gender' => ['required','in:male,female,other'],
         ]);
 
@@ -44,7 +44,7 @@ class PersonController extends Controller
         $validated = $request->validate([
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
-            'age' => ['required','integer','min:1','max:120'],
+            'birthdate' => ['required','date'],
             'gender' => ['required','in:male,female,other'],
         ]);
 
@@ -52,4 +52,5 @@ class PersonController extends Controller
 
         return back()->with('status', 'person-updated');
     }
+
 }

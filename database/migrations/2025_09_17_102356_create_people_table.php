@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('last_name', 100);
-            $table->integer('age')->unsigned();
+            $table->date('birthdate')->nullable();
             $table->enum('gender', ['male', 'female']);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
