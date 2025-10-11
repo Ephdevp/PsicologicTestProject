@@ -53,6 +53,8 @@ Follow these steps to set up the application:
 2. **Install Dependencies:**
    ```bash
    composer install
+   Or
+   /usr/bin/php8.3 /usr/bin/composer install
    npm install
    npm run build
    ```
@@ -80,6 +82,7 @@ Follow these steps to set up the application:
 5. **Run Migrations:**
    ```bash
    php artisan migrate --seed
+   /usr/bin/php8.3 artisan migrate --seed
    ```
 
 6. **Login with Super Admin (seeded):**
