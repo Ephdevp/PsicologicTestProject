@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Available Tests') }}
+            {{ __('doc.dashboard.available_tests') }}
         </h2>
     </x-slot>
 
@@ -15,9 +15,9 @@
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-sm font-semibold text-amber-800">Time is up</h3>
+                        <h3 class="text-sm font-semibold text-amber-800">{{ __('doc.dashboard.timeout_title') }}</h3>
                         <div class="mt-1 text-sm text-amber-700">
-                            The available time to answer the questionnaire has ended. Your answers were not submitted.
+                            {{ __('doc.dashboard.timeout_message') }}
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
             <div class="absolute inset-0 bg-black/50"></div>
             <div class="relative bg-white w-full max-w-sm mx-4 rounded-lg shadow-xl border border-gray-200 p-6 flex flex-col items-center justify-center gap-4">
                 <div class="h-12 w-12 rounded-full border-4 border-gray-200 border-t-indigo-600 animate-spin"></div>
-                <div class="text-base font-medium text-gray-800">Analyzing answers</div>
-                <div class="text-xs text-gray-500">This will take a few seconds…</div>
+                <div class="text-base font-medium text-gray-800">{{ __('doc.dashboard.analyzing') }}</div>
+                <div class="text-xs text-gray-500">{{ __('doc.dashboard.few_seconds') }}</div>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
             <div class="absolute inset-0 bg-black/50" onclick="document.getElementById('result-modal')?.classList.add('hidden')"></div>
             <div class="relative bg-white w-full max-w-lg mx-4 rounded-lg shadow-xl border border-gray-200">
                 <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-semibold text-gray-800">Results</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">{{ __('doc.dashboard.results') }}</h3>
                     <button type="button" class="text-gray-500 hover:text-gray-700" aria-label="Close" onclick="document.getElementById('result-modal')?.classList.add('hidden')">✕</button>
                 </div>
                 <div class="p-5 max-h-[60vh] overflow-y-auto">
@@ -63,7 +63,7 @@
                     </ul>
                 </div>
                 <div class="px-5 py-4 border-t border-gray-200 flex justify-end">
-                    <button type="button" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700" onclick="document.getElementById('result-modal')?.classList.add('hidden')">Close</button>
+                    <button type="button" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700" onclick="document.getElementById('result-modal')?.classList.add('hidden')">{{ __('doc.dashboard.close') }}</button>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                                     <span class="font-semibold text-lg">{{ $test->name }}</span>
                                     <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
                                 </div>
-                                <span class="ml-4 text-sm font-semibold text-green-600">Completed!</span>
+                                <span class="ml-4 text-sm font-semibold text-green-600">{{ __('doc.dashboard.completed_badge') }}</span>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                     <span class="font-semibold text-lg">{{ $test->name }}</span>
                                     <span class="text-sm text-gray-400 line-clamp-1">{{ $test->description }}</span>
                                 </div>
-                                <span class="ml-4 text-sm font-semibold text-gray-400">To access this test, you must first complete Test A</span>
+                                <span class="ml-4 text-sm font-semibold text-gray-400">{{ __('doc.dashboard.locked_message_b') }}</span>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
             @empty
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-dashed border-gray-300">
                     <div class="p-6 text-gray-600 text-center text-sm">
-                        {{ __('No pending tests. Great job!') }}
+                        {{ __('doc.dashboard.no_pending') }}
                     </div>
                 </div>
             @endforelse

@@ -123,4 +123,10 @@ class TestController extends Controller
         return redirect()->route('dashboard.index')->with('results', $results);
 
     }
+
+    public function showResults()
+    {
+        $user = Auth::user();
+        return view('results.index', ['user' => $user]);
+    }
 }

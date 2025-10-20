@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('tests', function (Blueprint $table) {
             $table->integer('max_duration')->unsigned()->nullable()->comment('Maximum duration of the test in minutes');
             $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->enum('category', ['basic', 'premium'])->default('basic')->after('status');
         });
     }
 
@@ -23,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tests', function (Blueprint $table) {
-            $table->dropColumn(['max_duration', 'status']);
+            $table->dropColumn(['max_duration', 'status', 'category']);
         });
     }
 };

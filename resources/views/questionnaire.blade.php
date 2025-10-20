@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Questionnaire') }}
+            {{ __('doc.questionnaire.title') }}
         </h2>
     </x-slot>
 
@@ -13,7 +13,7 @@
                     <span>{{ $testName }}</span>
                 </h2>
                 <div id="countdown-timer" data-minutes="{{ (int) $testDuration }}" class="flex items-center gap-3 bg-white/100 text-gray-800 px-4 py-3 rounded-lg font-mono shadow ring-1 ring-white/5">
-                    <span class="text-[0.7rem] tracking-wider uppercase opacity-75 font-semibold">{{ __('Time left') }}</span>
+                    <span class="text-[0.7rem] tracking-wider uppercase opacity-75 font-semibold">{{ __('doc.questionnaire.time_left') }}</span>
                     <span id="countdown-display" class="text-xl font-bold tracking-wider">--:--</span>
                 </div>
             </div>
@@ -46,26 +46,26 @@
                                 <div class="mt-6 flex flex-col items-end gap-2">
                                     <div class="flex items-center gap-2">
 {{--===========================================================================================================================================================================================================================================--}}
-                                        <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-semibold text-xs uppercase shadow hover:bg-gray-300 transition-colors duration-150 random-button" data-question-index="{{ $qIndex }}">
-                                            Random
-                                        </button>
+                                        {{-- <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-semibold text-xs uppercase shadow hover:bg-gray-300 transition-colors duration-150 random-button" data-question-index="{{ $qIndex }}">
+                                            {{ __('doc.questionnaire.random') }}
+                                        </button> --}}
 {{--===========================================================================================================================================================================================================================================--}}
                                         <button type="button" class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 next-button" data-question-index="{{ $qIndex }}">
-                                            Next
+                                            {{ __('doc.questionnaire.next') }}
                                         </button>
                                     </div>
                                     <div class="hidden text-sm text-red-600 next-alert" data-question-index="{{ $qIndex }}">
-                                        {{ __('Please select an answer to continue.') }}
+                                        {{ __('doc.questionnaire.select_to_continue') }}
                                     </div>
                                 </div>
                             @else
                                 <div class="mt-6 flex justify-end">
                                     <x-primary-button>
-                                        {{ __('Score') }}
+                                        {{ __('doc.questionnaire.score') }}
                                     </x-primary-button>
                                 </div>
                                 <div class="mt-2 text-sm text-red-600 submit-alert hidden">
-                                    {{ __('Please select an answer to continue.') }}
+                                    {{ __('doc.questionnaire.select_to_continue') }}
                                 </div>
                             @endif
                         </div>
@@ -82,8 +82,8 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
             </svg>
-            <p class="mt-4 text-white font-semibold">{{ __('Reading answers...') }}</p>
-            <small class="mt-4 text-white font-semibold">{{ __('Please wait while we process your answers.') }}</small>
+            <p class="mt-4 text-white font-semibold">{{ __('doc.questionnaire.reading_answers') }}</p>
+            <small class="mt-4 text-white font-semibold">{{ __('doc.questionnaire.please_wait') }}</small>
         </div>
     </div>
 

@@ -1,3 +1,26 @@
+## Changelog v0.5.4 (2025-10-20)
+Profile personal data improvements and data consistency updates.
+
+### Key Changes
+1. Person form enhancements
+   - Added “Phone Number” and “Education Level” fields to the Person create/update form.
+   - Education Level is now a select with options: Secondary school, High school, University education, Master's degree, Doctorate.
+   - Backward compatible: previously saved Spanish values are automatically matched to the equivalent English option in the UI.
+
+2. Validation and consistency
+   - Gender validation aligned with DB enum to only allow male/female (prevents invalid values).
+   - Added server-side validation for phone (max 20 chars) and education_level (max 50 chars).
+
+3. Seed data consistency
+   - Updated `database/seeders/data/questions_dump.sql` to align `factor_id` values with `questions.sql` using the mapping 1=A, 2=B, 3=C, 4=E, 5=F, 6=G, 7=H, 8=I, 9=L, 10=M, 11=N, 12=O, 13=Q1, 14=Q2, 15=Q3, 16=Q4. Content and order unchanged.
+
+### Upgrade Notes
+- No new migrations in v0.5.4 (the `people` table already contains `phone` and `education_level`).
+- If you previously stored Spanish values for `education_level`, the UI will display their English equivalents. Optionally normalize existing records to English with a one-off data update if needed.
+
+### Try it
+- Go to Profile → Personal Data, enter a phone number and choose an education level, then Save. Edit works the same.
+
 ## Changelog v0.5.3 (2025-10-07)
 Enhancements to the questionnaire UX, client/server validation, and timer persistence.
 
