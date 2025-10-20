@@ -58,6 +58,26 @@
             <x-input-error class="mt-2" :messages="$errors->get('gender')" />
         </div>
 
+        <div>
+            <x-input-label for="phone" :value="__('Phone Number')" />
+            <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $person->phone ?? '')" required />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="education_level" :value="__('Education Level')" />
+            @php $el = old('education_level', $person->education_level ?? ''); @endphp
+            <select id="education_level" name="education_level" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                <option value="" disabled {{ $el === '' ? 'selected' : '' }}>-- Select --</option>
+                <option value="secondary school" {{ in_array($el, ['secondary school','secundaria']) ? 'selected' : '' }}>Secondary school</option>
+                <option value="high school" {{ in_array($el, ['high school','bachillerato']) ? 'selected' : '' }}>High school</option>
+                <option value="university education" {{ in_array($el, ['university education','educasion universitaria']) ? 'selected' : '' }}>University education</option>
+                <option value="master's degree" {{ in_array($el, ["master's degree",'maestria']) ? 'selected' : '' }}>Master's degree</option>
+                <option value="doctorate" {{ in_array($el, ['doctorate','doctorado']) ? 'selected' : '' }}>Doctorate</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('education_level')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>
                 {{ $isEdit ? __('Save changes') : __('Save data') }}

@@ -12,7 +12,9 @@ class Person extends Model
         'name',
         'last_name',
         'birthdate',
-        'gender'
+        'gender',
+        'education_level',
+        'phone',
     ];
 
     public function user()

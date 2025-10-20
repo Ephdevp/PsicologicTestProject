@@ -44,9 +44,16 @@
                             </div>
                             @if($qIndex < ($countQuestions - 1))
                                 <div class="mt-6 flex flex-col items-end gap-2">
-                                    <button type="button" class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 next-button" data-question-index="{{ $qIndex }}">
-                                        Next
-                                    </button>
+                                    <div class="flex items-center gap-2">
+{{--===========================================================================================================================================================================================================================================--}}
+                                        <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-semibold text-xs uppercase shadow hover:bg-gray-300 transition-colors duration-150 random-button" data-question-index="{{ $qIndex }}">
+                                            Random
+                                        </button>
+{{--===========================================================================================================================================================================================================================================--}}
+                                        <button type="button" class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 next-button" data-question-index="{{ $qIndex }}">
+                                            Next
+                                        </button>
+                                    </div>
                                     <div class="hidden text-sm text-red-600 next-alert" data-question-index="{{ $qIndex }}">
                                         {{ __('Please select an answer to continue.') }}
                                     </div>
@@ -180,7 +187,25 @@
                     showNext(qIdx);
                 });
             });
-
+//================================================================================================================================
+            // Random buttons: pick a random option for the current question
+            document.querySelectorAll('.random-button').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    const qIdx = parseInt(e.currentTarget.getAttribute('data-question-index'), 10);
+                    const currentCard = cards[qIdx];
+                    if (!currentCard) return;
+                    const radios = Array.from(currentCard.querySelectorAll('input.answer-radio'));
+                    if (!radios.length) return;
+                    // Clear previous selection in this group first
+                    radios.forEach(r => { r.checked = false; });
+                    const pick = Math.floor(Math.random() * radios.length);
+                    radios[pick].checked = true;
+                    // Hide any alert since we now have a selection
+                    const alertEl = currentCard.querySelector('.next-alert[data-question-index="' + qIdx + '"]');
+                    if (alertEl) alertEl.classList.add('hidden');
+                });
+            });
+//================================================================================================================================
             if (resetBtn) {
                 resetBtn.addEventListener('click', function () {
                     resetQuestionnaire();

@@ -22,7 +22,9 @@ class PersonController extends Controller
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
             'birthdate' => ['required','date'],
-            'gender' => ['required','in:male,female,other'],
+            'gender' => ['required','in:male,female'],
+            'education_level' => ['required','string','max:50'],
+            'phone' => ['required','string','max:20'],
         ]);
 
         $validated['user_id'] = $user->id;
@@ -45,7 +47,9 @@ class PersonController extends Controller
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
             'birthdate' => ['required','date'],
-            'gender' => ['required','in:male,female,other'],
+            'gender' => ['required','in:male,female'],
+            'education_level' => ['required','string','max:50'],
+            'phone' => ['required','string','max:20'],
         ]);
 
         $person->update($validated);
