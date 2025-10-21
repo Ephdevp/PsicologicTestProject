@@ -97,8 +97,8 @@ class TestController extends Controller
             $results[$factor] = $result[0]->sten ?? null;
 
         }
-            var_dump($results);
-            die();
+            // var_dump($results);
+            // die();
         // Mark the test as completed for the user
 
         DB::table('test_user')
