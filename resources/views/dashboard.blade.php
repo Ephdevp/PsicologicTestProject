@@ -34,6 +34,30 @@
         </script>
     @endif
 
+    @if(session('error'))
+        <!-- Error Modal -->
+        <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black/50" onclick="document.getElementById('error-modal')?.classList.add('hidden')"></div>
+            <div class="relative bg-white w-full max-w-md mx-4 rounded-lg shadow-xl border border-red-200">
+                <div class="px-5 py-4 border-b border-red-200 bg-red-50 flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l6.518 11.598c.75 1.336-.213 3.003-1.742 3.003H3.48c-1.53 0-2.492-1.667-1.743-3.003L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-2a.75.75 0 01-.75-.75V8a.75.75 0 011.5 0v2.25A.75.75 0 0110 11z" clip-rule="evenodd" />
+                        </svg>
+                        <h3 class="text-lg font-semibold">Error</h3>
+                    </div>
+                    <button type="button" class="text-red-600 hover:text-red-700" aria-label="Close" onclick="document.getElementById('error-modal')?.classList.add('hidden')">✕</button>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-red-800 whitespace-pre-line">{{ session('error') }}</p>
+                </div>
+                <div class="px-5 py-4 border-t border-red-200 bg-red-50 flex justify-end">
+                    <button type="button" class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700" onclick="document.getElementById('error-modal')?.classList.add('hidden')">{{ __('doc.dashboard.close') }}</button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @if(session('results') && !empty(session('results')))
         <!-- Loader: Analizando respuestas -->
         <div id="result-loader" class="fixed inset-0 z-50 flex items-center justify-center">

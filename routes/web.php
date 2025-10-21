@@ -30,7 +30,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::middleware(['auth', 'verified'])->controller(TestController::class)->group(function () {
     Route::post('/questionnaire/submit', 'questionarieSubmit')->name('test.questionarieSubmit');
-    Route::get('/results', 'showResults')->name('test.showResults');
+    Route::get('/results/{test?}', 'showResults')->name('results.show');
 });
 
 Route::middleware('auth')->group(function () {

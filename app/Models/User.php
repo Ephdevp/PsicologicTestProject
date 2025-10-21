@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Factor::class, 'factor_test_user', 'user_id', 'factor_id')->withTimestamps();
     }
 
+    public function user_results()
+    {
+        return $this->hasMany(UserResults::class, 'user_id');
+    }
+
     // Mutator: siempre guardar el nombre en minúsculas
     public function setNameAttribute($value)
     {

@@ -49,19 +49,15 @@
             <ul class="space-y-3 text-sm flex-1">
                 @forelse($completed as $t)
                     <li class="rounded border border-gray-100 px-3 py-2">
-                        <p class="font-medium text-gray-900">{{ $t['title'] }}</p>
-                        <p class="text-gray-600 text-xs mt-0.5">{{ __('doc.common.date') }} {{ $t['date'] }}</p>
-                        <p class="text-gray-600 text-xs">{{ __('doc.common.score') }} {{ $t['score'] }}</p>
+                        <a href="{{ route('results.show', ['test' => $t->id]) }}" class="group block -mx-3 -my-2 px-3 py-2 rounded transition-colors duration-200 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
+                            <p class="font-medium text-gray-900 group-hover:text-white">{{ $t->name }}</p>
+                            <p class="text-gray-600 text-xs mt-0.5 group-hover:text-white">{{ $t->category }}</p>
+                        </a>
                     </li>
                 @empty
                     <li class="text-gray-500 italic">{{ __('doc.tests.none_completed') }}</li>
                 @endforelse
             </ul>
-            <div class="mt-4">
-                <button type="button" class="inline-flex items-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md transition">
-                    {{ __('doc.nav.view_history') }}
-                </button>
-            </div>
         </div>
     </div>
 </section>

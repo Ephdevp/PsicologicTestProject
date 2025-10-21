@@ -20,11 +20,13 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <div class="me-4 hidden md:flex items-center gap-2">
-                    <a href="{{ route('lang.switch','en') }}" class="text-sm {{ app()->getLocale()==='en' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">EN</a>
-                    <span class="text-gray-300">|</span>
-                    <a href="{{ route('lang.switch','ru') }}" class="text-sm {{ app()->getLocale()==='ru' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">RU</a>
-                </div>
+                @unless (request()->routeIs('results.index'))
+                    <div class="me-4 hidden md:flex items-center gap-2">
+                        <a href="{{ route('lang.switch','en') }}" class="text-sm {{ app()->getLocale()==='en' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">EN</a>
+                        <span class="text-gray-300">|</span>
+                        <a href="{{ route('lang.switch','ru') }}" class="text-sm {{ app()->getLocale()==='ru' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">RU</a>
+                    </div>
+                @endunless
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -86,11 +88,13 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <div class="px-4 flex items-center gap-3">
-                    <a href="{{ route('lang.switch','en') }}" class="text-sm {{ app()->getLocale()==='en' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">EN</a>
-                    <span class="text-gray-300">|</span>
-                    <a href="{{ route('lang.switch','ru') }}" class="text-sm {{ app()->getLocale()==='ru' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">RU</a>
-                </div>
+                @unless (request()->routeIs('results.index'))
+                    <div class="px-4 flex items-center gap-3">
+                        <a href="{{ route('lang.switch','en') }}" class="text-sm {{ app()->getLocale()==='en' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">EN</a>
+                        <span class="text-gray-300">|</span>
+                        <a href="{{ route('lang.switch','ru') }}" class="text-sm {{ app()->getLocale()==='ru' ? 'font-semibold text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">RU</a>
+                    </div>
+                @endunless
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('doc.nav.profile') }}
                 </x-responsive-nav-link>

@@ -1,3 +1,44 @@
+## Changelog v0.6.0 (2025-10-21)
+Results experience, localization defaults, and auth translations.
+
+### Key Changes
+1. Results flow (basic view)
+   - Single-step navigation across 3 containers with Next/Back.
+   - Container 1: identity and contact spots; 6-column results table with columns 3+4 merged; factor bars with centered baseline and color (green/red) proportional to value.
+   - Container 2: four explicit interpretation tables; the first row is full-width with indigo background and white text; centered content in rows 2–3.
+   - Container 3: title/subtitle; centered 1-column/2-row table that labels EZ zone and colors the second row by range:
+     - -20..0 → «Красная зона» (red)
+     - 1..4 → «Желтая зона» (yellow)
+     - 5..9 → «Салатовая зона» (light green)
+     - 10..20 → «Зеленая зона» (green)
+   - New recommendations block under the table shown only when EZ < 2; centered text; health notice highlighted.
+
+2. Dashboard
+   - Error modal appears when session('error') exists, with red accent styling and dismiss actions.
+
+3. Profile widgets
+   - Completed-tests link now has success-hover: the full link area turns green and texts turn white; widened hit area for better UX.
+
+4. Auth (Login / Create account)
+   - Russian texts applied directly in Blade templates for labels and links (no dependency on lang files).
+   - Default application locale set to Russian with Russian fallback in `config/app.php`.
+
+5. Misc
+   - UI centering and alignment fixes across results tables and action buttons.
+   - Language switcher visibility limited per results page (if present in your nav).
+
+### Upgrade Notes
+- No new database migrations in v0.6.0.
+- If you prefer English by default, set `APP_LOCALE=en` and `APP_FALLBACK_LOCALE=en` in your `.env`.
+- If you maintain custom auth screens, review the Russian copy in `resources/views/auth/login.blade.php` and `resources/views/auth/register.blade.php`.
+
+### Try it
+- Complete a test and open Results:
+  - Navigate with Next/Back across the 3 containers.
+  - Verify the EZ zone label and background color; when EZ < 2, the recommendations are shown.
+- Visit the Profile → Completed tests list and hover a result to see the success hover.
+- Visit Login and Register to confirm Russian text appears by default.
+
 ## Changelog v0.5.4 (2025-10-20)
 Profile personal data improvements and data consistency updates.
 
