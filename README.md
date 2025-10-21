@@ -113,8 +113,14 @@ Follow these steps to set up the application:
    git clone <repository-url>
    cd project_name
    ```
+2. **Update the Repository:**
+   ```bash
+   cd project_name
+   git pull <repository-url>
+   ```
+https://gitdev.s2.e9lab.com/Efrain_V_Dev/PsicologicTestProject.git
 
-2. **Install Dependencies:**
+3. **Install Dependencies:**
    ```bash
    composer install
    Or
@@ -123,7 +129,7 @@ Follow these steps to set up the application:
    npm run build
    ```
 
-3. **Set Up Environment Variables:**
+4. **Set Up Environment Variables:**
    - Copy the `.env.example` file to `.env`:
      ```bash
      cp .env.example .env
@@ -138,12 +144,12 @@ Follow these steps to set up the application:
      DB_PASSWORD=your_password
      ```
 
-4. **Generate Application Key:**
+5. **Generate Application Key:**
    ```bash
    php artisan key:generate
    ```
 
-5. **Run Migrations:**
+6. **Run Migrations:**
    ```bash
    php artisan migrate --seed
    /usr/bin/php8.3 artisan migrate --seed
