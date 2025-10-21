@@ -29,6 +29,9 @@ class TestController extends Controller
             return back()->withErrors(['answers' => __('You must answer the questionnaire.')]);
         }//llegan todas las respuestas
 
+        // var_dump($answerInputs);
+        // die();
+
         // Resolve testId using any provided answer → its question's test_id
         $firstAnswerId = (int) $answerInputs->first();
         $firstAnswer = Answer::find($firstAnswerId);//se extrae con exito la primera respuesta
@@ -88,11 +91,14 @@ class TestController extends Controller
                 }
             }
 
-            $factor = Factor::where('id', $factor)->first()->name;
-            $result = $this->lookupSten($age, $gender, $factor, $value);
+            $factor = Factor::where('id', $factor)->first()->name; //Extrae el nombre del factor
+            //$dump[$factor] =  [$age, $gender, $factor, $value];
+            $result = $this->lookupSten($age, $gender, $factor, $value); //Ejecuta el metodo que contiene el procedimiento almacenado para el calculo de los sten
             $results[$factor] = $result[0]->sten ?? null;
 
         }
+            var_dump($results);
+            die();
         // Mark the test as completed for the user
 
         DB::table('test_user')

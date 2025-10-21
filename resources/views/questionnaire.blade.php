@@ -46,9 +46,9 @@
                                 <div class="mt-6 flex flex-col items-end gap-2">
                                     <div class="flex items-center gap-2">
 {{--===========================================================================================================================================================================================================================================--}}
-                                        <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-semibold text-xs uppercase shadow hover:bg-gray-300 transition-colors duration-150 random-button" data-question-index="{{ $qIndex }}">
+                                        {{-- <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-semibold text-xs uppercase shadow hover:bg-gray-300 transition-colors duration-150 random-button" data-question-index="{{ $qIndex }}">
                                             {{ __('doc.questionnaire.random') }}
-                                        </button>
+                                        </button> --}}
 {{--===========================================================================================================================================================================================================================================--}}
                                         <button type="button" class="px-4 py-2 bg-indigo-600 rounded-md font-semibold text-xs uppercase text-white shadow hover:bg-indigo-700 transition-colors duration-150 next-button" data-question-index="{{ $qIndex }}">
                                             {{ __('doc.questionnaire.next') }}
