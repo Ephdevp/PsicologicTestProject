@@ -22,7 +22,7 @@ class PersonController extends Controller
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
             'birthdate' => ['required','date'],
-            'gender' => ['required','in:male,female'],
+            'gender' => ['required'],
             'education_level' => ['required','string','max:50'],
             'phone' => ['required','string','max:20'],
         ]);
@@ -47,7 +47,7 @@ class PersonController extends Controller
             'name' => ['required','string','max:100'],
             'last_name' => ['required','string','max:100'],
             'birthdate' => ['required','date'],
-            'gender' => ['required','in:male,female'],
+            'gender' => ['required'],
             'education_level' => ['required','string','max:50'],
             'phone' => ['required','string','max:20'],
         ]);

@@ -52,8 +52,8 @@
             <select id="gender" name="gender" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 {{ $requiredWarning ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" required>
                 @php $g = old('gender', $person->gender ?? ''); @endphp
                 <option value="" disabled {{ $g === '' ? 'selected' : '' }}>-- Select --</option>
-                <option value="male" {{ $g === 'male' ? 'selected' : '' }}>{{ __('doc.profile.male') }}</option>
-                <option value="female" {{ $g === 'female' ? 'selected' : '' }}>{{ __('doc.profile.female') }}</option>
+                    <option value="мужчина" {{ in_array($g, ['male','мужчина']) ? 'selected' : '' }}>{{ __('doc.profile.male') }}</option>
+                    <option value="женщина" {{ in_array($g, ['female','женщина']) ? 'selected' : '' }}>{{ __('doc.profile.female') }}</option>
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('gender')" />
         </div>
@@ -69,11 +69,11 @@
             @php $el = old('education_level', $person->education_level ?? ''); @endphp
             <select id="education_level" name="education_level" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                 <option value="" disabled {{ $el === '' ? 'selected' : '' }}>-- Select --</option>
-                <option value="secondary school" {{ in_array($el, ['secondary school','secundaria']) ? 'selected' : '' }}>{{ __('doc.education.secondary_school') }}</option>
-                <option value="high school" {{ in_array($el, ['high school','bachillerato']) ? 'selected' : '' }}>{{ __('doc.education.high_school') }}</option>
-                <option value="university education" {{ in_array($el, ['university education','educasion universitaria']) ? 'selected' : '' }}>{{ __('doc.education.university') }}</option>
-                <option value="master's degree" {{ in_array($el, ["master's degree",'maestria']) ? 'selected' : '' }}>{{ __('doc.education.masters') }}</option>
-                <option value="doctorate" {{ in_array($el, ['doctorate','doctorado']) ? 'selected' : '' }}>{{ __('doc.education.doctorate') }}</option>
+                    <option value="средняя школа" {{ in_array($el, ['secondary school','secundaria','средняя школа']) ? 'selected' : '' }}>{{ __('doc.education.secondary_school') }}</option>
+                    <option value="старшая школа" {{ in_array($el, ['high school','bachillerato','старшая школа']) ? 'selected' : '' }}>{{ __('doc.education.high_school') }}</option>
+                    <option value="высшее образование" {{ in_array($el, ['university education','educasion universitaria','высшее образование']) ? 'selected' : '' }}>{{ __('doc.education.university') }}</option>
+                    <option value="магистр" {{ in_array($el, ["master's degree","maestria","магистр"]) ? 'selected' : '' }}>{{ __('doc.education.masters') }}</option>
+                    <option value="доктор" {{ in_array($el, ['doctorate','doctorado','доктор']) ? 'selected' : '' }}>{{ __('doc.education.doctorate') }}</option>
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('education_level')" />
         </div>

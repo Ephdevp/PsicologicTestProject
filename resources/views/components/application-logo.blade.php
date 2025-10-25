@@ -1,3 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" {{ $attributes }}>
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.75c-1.148-.718-2.541-1.125-4-1.125-1.993 0-3.928.773-5.5 2.164v10.089c1.572-1.391 3.507-2.164 5.5-2.164 1.46 0 2.852.407 4 1.125m0-10.089c1.148-.718 2.541-1.125 4-1.125 1.993 0 3.928.773 5.5 2.164v10.089c-1.572-1.391-3.507-2.164-5.5-2.164-1.46 0-2.852.407-4 1.125" />
-</svg>
+<img src="{{ asset('logo.png') }}" alt="Application Logo" {{ $attributes }}>
