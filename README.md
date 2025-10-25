@@ -1,3 +1,32 @@
+   ## Changelog v0.6.6 (2025-10-26)
+   Results view overhaul and visual refinements.
+
+   ### Key Changes
+   1. Results view redesign
+      - Merged the three results containers into a single consolidated layout (`resources/views/results/basic.blade.php`) and removed the Next/Back navigation controls.
+      - Replaced SVG icons in shared component(s) to use `public/logo.png` so header/login and results share the same image asset.
+      - Imported the Roboto font inline for the results view only and applied compact typography for denser printed/export layouts.
+      - Darkened table borders and adjusted table/cell widths for better readability and print fidelity.
+      - Reworked the factors visualization: header and factor cells render as 11-cell grids (-5..+5). The central cell is shown gray and side cells color green/red proportionally to the factor sten values.
+      - Added a simple 4×8 static table under the EZ block for notes/annotations.
+
+   2. Profile form and localization
+      - Updated `resources/views/profile/partials/person-form.blade.php` to submit Russian `value` strings for `gender` and `education_level`, while preserving legacy matching for already stored English/Spanish values.
+
+   3. Minor visual/UX tweaks
+      - Reduced row heights on targeted tables using a `compact-table` stylesheet block.
+      - Removed gaps between factor subcells to create contiguous indicator bars.
+      - Combined and clarified some table headers and labels for print-friendly output.
+
+   ### Verify
+   - Open a completed Results page: the factors column should show an 11-cell grid with the center cell gray and left/right coloring reflecting the stored sten values.
+   - Edit Profile: gender and education selects should accept/display legacy values while submitting the new Russian strings.
+   - Check the login and navigation headers: the logo should be served from `public/logo.png`.
+
+   ### Notes
+   - No DB migrations were added in v0.6.6; changes are view-level only.
+   - If you want Roboto applied globally, update `resources/css/app.css` and recompile assets (npm run build).
+
    ## Changelog v0.6.5 (2025-10-21)
    UI icon unification and controller cleanup.
 
