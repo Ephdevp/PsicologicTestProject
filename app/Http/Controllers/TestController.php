@@ -176,7 +176,8 @@ class TestController extends Controller
                 switch($data->factor)
                 {
                     case 'C':
-                        if($userResults->factorC_sten >= $data->sten_from && $userResults->factorC_sten <= $data->sten_to && $data->plan == 'basic') {
+                        if($userResults->factorC_sten >= $data->sten_from && $userResults->factorC_sten <= $data->sten_to && $data->plan == 'basic') 
+                        {
                             $interpretations['C'] = [
                                 'title' => $data->title,
                                 'psychology_text' => $data->psychology_text,
@@ -185,7 +186,8 @@ class TestController extends Controller
                         }
                     break;
                     case 'L':
-                        if($userResults->factorL_sten >= $data->sten_from && $userResults->factorL_sten <= $data->sten_to && $data->plan == 'basic') {
+                        if($userResults->factorL_sten >= $data->sten_from && $userResults->factorL_sten <= $data->sten_to && $data->plan == 'basic') 
+                        {
                             $interpretations['L'] = [
                                 'title' => $data->title,
                                 'psychology_text' => $data->psychology_text,
@@ -194,7 +196,8 @@ class TestController extends Controller
                         }
                     break;
                     case 'O':
-                        if($userResults->factorO_sten >= $data->sten_from && $userResults->factorO_sten <= $data->sten_to && $data->plan == 'basic') {
+                        if($userResults->factorO_sten >= $data->sten_from && $userResults->factorO_sten <= $data->sten_to && $data->plan == 'basic') 
+                        {
                             $interpretations['O'] = [
                                 'title' => $data->title,
                                 'psychology_text' => $data->psychology_text,
@@ -203,7 +206,8 @@ class TestController extends Controller
                         }
                     break;
                     case 'Q4':
-                        if($userResults->factorQ4_sten >= $data->sten_from && $userResults->factorQ4_sten <= $data->sten_to && $data->plan == 'basic') {
+                        if($userResults->factorQ4_sten >= $data->sten_from && $userResults->factorQ4_sten <= $data->sten_to && $data->plan == 'basic') 
+                        {
                             $interpretations['Q4'] = [
                                 'title' => $data->title,
                                 'psychology_text' => $data->psychology_text,
@@ -216,50 +220,178 @@ class TestController extends Controller
             $EZ = $userResults->factorC_sten + $userResults->factorL_sten + $userResults->factorO_sten + $userResults->factorQ4_sten;
             return view('results.basic', compact('user', 'person', 'test_id', 'userResults', 'test', 'pivotTest', 'interpretations', 'EZ'));
         }
-        //Futura implementacion para test premium
-        // foreach($interpretationData as $data)
-        //     {
-        //         switch($data->factor)
-        //         {
-        //             case 'C':
-        //                 if($userResults->factorC_sten >= $data->sten_from && $userResults->factorC_sten <= $data->sten_to && $data->plan == 'premium') {
-        //                     $interpretations['C'] = [
-        //                         'title' => $data->title,
-        //                         'psychology_text' => $data->psychology_text,
-        //                         'health_text' => $data->health_text,
-        //                     ];
-        //                 }
-        //             break;
-        //             case 'L':
-        //                 if($userResults->factorL_sten >= $data->sten_from && $userResults->factorL_sten <= $data->sten_to && $data->plan == 'premium') {
-        //                     $interpretations['L'] = [
-        //                         'title' => $data->title,
-        //                         'psychology_text' => $data->psychology_text,
-        //                         'health_text' => $data->health_text,
-        //                     ];
-        //                 }
-        //             break;
-        //             case 'O':
-        //                 if($userResults->factorO_sten >= $data->sten_from && $userResults->factorO_sten <= $data->sten_to && $data->plan == 'premium') {
-        //                     $interpretations['O'] = [
-        //                         'title' => $data->title,
-        //                         'psychology_text' => $data->psychology_text,
-        //                         'health_text' => $data->health_text,
-        //                     ];
-        //                 }
-        //             break;
-        //             case 'Q4':
-        //                 if($userResults->factorQ4_sten >= $data->sten_from && $userResults->factorQ4_sten <= $data->sten_to && $data->plan == 'premium') {
-        //                     $interpretations['Q4'] = [
-        //                         'title' => $data->title,
-        //                         'psychology_text' => $data->psychology_text,
-        //                         'health_text' => $data->health_text,
-        //                     ];
-        //                 }
-        //             break;
-        //         }
-        //     }
-        //     return view('results.basic', compact('user', 'person', 'test_id', 'userResults', 'test', 'pivotTest'));
+
+        if($test->category == 'premium')
+        {
+            foreach($interpretationData as $data)
+                {
+                    switch($data->factor)
+                    {
+                        case 'C':
+                            if($userResults->factorC_sten >= $data->sten_from && $userResults->factorC_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['C'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                        case 'L':
+                            if($userResults->factorL_sten >= $data->sten_from && $userResults->factorL_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['L'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                        case 'O':
+                            if($userResults->factorO_sten >= $data->sten_from && $userResults->factorO_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['O'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                        case 'Q4':
+                            if($userResults->factorQ4_sten >= $data->sten_from && $userResults->factorQ4_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['Q4'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                        case 'Q3':
+                            if($userResults->factorQ3_sten >= $data->sten_from && $userResults->factorQ3_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['Q3'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'E':
+                            if($userResults->factorE_sten >= $data->sten_from && $userResults->factorE_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['E'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'G':
+                            if($userResults->factorG_sten >= $data->sten_from && $userResults->factorG_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['G'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'H':
+                            if($userResults->factorH_sten >= $data->sten_from && $userResults->factorH_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['H'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'A':
+                            if($userResults->factorA_sten >= $data->sten_from && $userResults->factorA_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['A'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'F':
+                            if($userResults->factorF_sten >= $data->sten_from && $userResults->factorF_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['F'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'I':
+                            if($userResults->factorI_sten >= $data->sten_from && $userResults->factorI_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['I'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'Q2':
+                            if($userResults->factorQ2_sten >= $data->sten_from && $userResults->factorQ2_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['Q2'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'B':
+                            if($userResults->factorB_sten >= $data->sten_from && $userResults->factorB_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['B'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'M':
+                            if($userResults->factorM_sten >= $data->sten_from && $userResults->factorM_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['M'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'N':
+                            if($userResults->factorN_sten >= $data->sten_from && $userResults->factorN_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['N'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                            case 'Q1':
+                            if($userResults->factorQ1_sten >= $data->sten_from && $userResults->factorQ1_sten <= $data->sten_to && $data->plan == 'premium') 
+                            {
+                                $interpretations['Q1'] = [
+                                    'title' => $data->title,
+                                    'psychology_text' => $data->psychology_text,
+                                    'health_text' => $data->health_text,
+                                ];
+                            }
+                        break;
+                    }
+                }
+            $EZ = $userResults->factorC_sten + $userResults->factorL_sten + $userResults->factorO_sten + $userResults->factorQ4_sten;
+            return view('results.premium', compact('user', 'person', 'test_id', 'userResults', 'test', 'pivotTest', 'interpretations', 'EZ'));
+        }
     }
 
     //metodo para calcular el valor del sten

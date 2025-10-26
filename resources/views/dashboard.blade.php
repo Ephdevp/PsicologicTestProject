@@ -116,7 +116,7 @@
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 transition">
                             <div class="p-6 text-gray-900 flex justify-between items-center">
                                 <div class="flex flex-col">
-                                    <span class="font-semibold text-lg">{{ $test->name }}</span>
+                                    <span class="font-semibold text-lg">{{ $test->name.' ('.$test->category.')' }}</span>
                                     <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
                                 </div>
                                 <span class="ml-4 text-sm font-semibold text-green-600">{{ __('doc.dashboard.completed_badge') }}</span>
@@ -128,7 +128,7 @@
                         <div class="bg-gray-200 overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 transition">
                             <div class="p-6 text-gray-500 flex justify-between items-center">
                                 <div class="flex flex-col">
-                                    <span class="font-semibold text-lg">{{ $test->name }}</span>
+                                    <span class="font-semibold text-lg">{{ $test->name.' ('.$test->category.')' }}</span>
                                     <span class="text-sm text-gray-400 line-clamp-1">{{ $test->description }}</span>
                                 </div>
                                 <span class="ml-4 text-sm font-semibold text-gray-400">{{ __('doc.dashboard.locked_message_b') }}</span>
@@ -140,7 +140,7 @@
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 group-hover:border-indigo-400 transition">
                             <div class="p-6 text-gray-900 flex justify-between items-center">
                                 <div class="flex flex-col">
-                                    <span class="font-semibold text-lg group-hover:text-indigo-600">{{ $test->name }}</span>
+                                    <span class="font-semibold text-lg group-hover:text-indigo-600">{{ $test->name.' ('.$test->category.')' }}</span>
                                     <span class="text-sm text-gray-500 line-clamp-1">{{ $test->description }}</span>
                                 </div>
                                 @php

@@ -1,3 +1,39 @@
+   ## Changelog v0.7.0 (2025-10-26)
+   New: Purchase modal, componentized factor interpretations, and consistent table columns.
+
+   ### Key Changes
+   1. Purchase flow UI
+      - Added a Tailwind-styled modal on the Profile → Tests widget that presents two purchase options: Basic and Premium.
+      - Modal open/close is implemented with scoped vanilla JS. The script is pushed via `@push('scripts')` and the main layout now renders `@stack('scripts')` so the code runs on pages that include the widget.
+      - The widget and modal are scoped with `data-*` attributes (no global element IDs) so multiple instances won't conflict and the rest of the widget remains unaffected.
+      - Behavior details:
+        - Body scroll is locked while modal is open (overflow:hidden).
+        - Backdrop click and Escape key close the modal.
+        - Action links inside the modal POST to `route('shop.buy', ['type' => '<type>'])` using fetch and send a JSON payload; if the backend returns `redirect_url` the browser will follow it.
+        - If you prefer redirects instead of fetch, update the action links to point directly to your checkout endpoints.
+
+   2. Componentization
+      - Extracted factor interpretation lists into a reusable Blade component `resources/views/components/factor-interpretation.blade.php` and replaced inline UL blocks in results views to improve readability and maintainability.
+
+   3. Table layout consistency
+      - Added explicit `<colgroup>` definitions to results tables so columns across the different category tables align consistently in width and print.
+
+   ### Verify
+   - Visit Profile → Tests and press 'Buy more tests': the modal should open and display two purchase links; pressing Esc, clicking backdrop, or using the close buttons should hide the modal.
+   - Check the browser console when clicking 'Comprar Basic'/'Comprar Premium' — the script will POST to the `shop.buy` route and log the returned payload; if your server returns a `redirect_url` the browser will navigate there.
+   - Open a Results page: the factor interpretation block should render via the new component and show the correct factor descriptions.
+   - Open Results tables: columns across category tables should align consistently.
+
+   ### Notes and Implementation Notes for Developers
+   - The frontend expects a `POST` route named `shop.buy` that accepts JSON { type } and returns JSON. Minimal example response shape:
+     {
+       "status": "ok",
+       "redirect_url": "https://checkout.example/.."  // optional
+     }
+   - If the route is missing, clicking an action will result in a 404 (check console). I can scaffold a minimal controller and route that returns a sample payload for dev/testing.
+   - Accessibility: modal supports Esc close and backdrop click; consider adding focus trapping for production.
+
+
    ## Changelog v0.6.6 (2025-10-26)
    Results view overhaul and visual refinements.
 

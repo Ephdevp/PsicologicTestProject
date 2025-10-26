@@ -9,31 +9,44 @@ class TestSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [
-            [
+            Test::create([
                 'name' => 'Test A',
                 'description' => null,
                 'max_duration' => 45,
                 'status' => 'active',
+                'category' => 'basic',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
+            ]);
 
-            [
+            Test::create([
                 'name' => 'Test B',
                 'description' => null,
                 'max_duration' => 45,
                 'status' => 'active',
+                'category' => 'basic',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ];
+            ]);
 
-        foreach ($data as $row) {
-            Test::query()->firstOrCreate(
-                ['name' => $row['name']],
-                $row
-            );
-        }
+            Test::create([
+                'name' => 'Test A',
+                'description' => null,
+                'max_duration' => 45,
+                'status' => 'active',
+                'category' => 'premium',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            Test::create([
+                'name' => 'Test B',
+                'description' => null,
+                'max_duration' => 45,
+                'status' => 'active',
+                'category' => 'premium',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
     }
 }
